@@ -1,5 +1,6 @@
 import React from "react";
 import type {Metadata} from "next";
+import ContextProvider from "@/lib/hooks/userContext";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -11,7 +12,9 @@ export default function RootLayout({children}: Readonly<{ children: React.ReactN
     return (
         <html lang="en">
         <body>
-        {children}
+        <ContextProvider>
+            {children}
+        </ContextProvider>
         </body>
         </html>
     );

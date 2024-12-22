@@ -1,44 +1,78 @@
 'use client';
 
-import {useRouter} from "next/navigation";
-import NavigationItem from "@/lib/components/navigationItem";
+import React, {useState} from 'react';
+import {useRouter} from 'next/navigation';
+import NavigationItem from './navigationItem';
+import {
+    Home,
+    ShoppingCart,
+    FileText,
+    LogOut,
+    ChevronLeft,
+    ChevronRight,
+} from 'lucide-react';
 import Image from "next/image";
 
 export default function Navigation() {
     const router = useRouter();
+    const [isMini, setIsMini] = useState(false);
 
     const logout = () => {
         localStorage.removeItem('accessToken');
-
         router.push('/login');
     };
 
     return (
-        <div className="h-screen flex flex-col bg-stone-100 pr-3">
-            <Image src="/logo-grey.png" alt="" className="w-32 h-max my-3 ml-10" width={200} height={200}/>
+        <div
+            className={`relative h-screen flex flex-col bg-stone-100 pr-3 transition-all duration-300 group ${
+                isMini ? 'w-32' : 'w-72'
+            }`}
+        >
+            <div className="flex justify-start items-center space-x-5">
+                <Image src="/logo.png" alt="Logo" className="h-14 w-max my-10 ml-10" width={256} height={256}/>
+                {!isMini && <p className="whitespace-nowrap text-2xl font-semibold text-stone-700">Mysorf</p>}
+            </div>
+
+            {!isMini ? (
+                <button
+                    className="absolute right-0 top-10 flex justify-center items-center bg-stone-200 rounded-l-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    onClick={() => setIsMini(true)}
+                >
+                    <ChevronLeft/>
+                </button>
+            ) : (
+                <button
+                    className="absolute -right-6 top-10 flex justify-center items-center bg-stone-200 rounded-r-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    onClick={() => setIsMini(false)}
+                >
+                    <ChevronRight/>
+                </button>
+            )}
 
             <NavigationItem href="/dashboard">
-                <svg viewBox="0 0 24 24" fill="none" focusable="false" className="w-6 h-6">
-                    <path
-                        d="M3 6.571c0-.746 0-1.254.029-1.648.027-.385.077-.584.138-.723A2 2 0 014.2 3.167c.14-.06.338-.11.723-.138C5.317 3 5.825 3 6.57 3c.747 0 1.255 0 1.649.029.384.027.584.077.723.138A2 2 0 019.976 4.2c.06.14.11.338.138.723.028.394.029.902.029 1.648 0 .747 0 1.255-.029 1.649-.027.384-.077.584-.138.723a2 2 0 01-1.033 1.033c-.14.06-.339.11-.723.138-.394.028-.902.029-1.649.029-.746 0-1.254 0-1.648-.029-.385-.027-.584-.077-.723-.138a2 2 0 01-1.033-1.033c-.06-.14-.11-.339-.138-.723C3 7.826 3 7.318 3 6.57zM3 17.429c0-.747 0-1.255.029-1.649.027-.384.077-.583.138-.723A2 2 0 014.2 14.024c.14-.06.338-.11.723-.138.394-.028.902-.029 1.648-.029.747 0 1.255 0 1.649.029.384.027.584.077.723.138a2 2 0 011.033 1.033c.06.14.11.339.138.723.028.394.029.902.029 1.649 0 .746 0 1.254-.029 1.648-.027.385-.077.584-.138.723a2 2 0 01-1.033 1.033c-.14.06-.339.11-.723.138C7.826 21 7.318 21 6.57 21c-.746 0-1.254 0-1.648-.029-.385-.027-.584-.077-.723-.138A2 2 0 013.167 19.8c-.06-.14-.11-.338-.138-.723C3 18.683 3 18.175 3 17.43zM13.857 6.571c0-.746.001-1.254.03-1.648.027-.385.077-.584.137-.723a2 2 0 011.034-1.033c.139-.06.338-.11.722-.138C16.174 3 16.682 3 17.43 3s1.254 0 1.648.029c.385.027.584.077.723.138A2 2 0 0120.833 4.2c.061.14.111.338.139.723.028.394.028.902.028 1.648 0 .747 0 1.255-.029 1.649-.027.384-.077.584-.138.723A2 2 0 0119.8 9.976c-.14.06-.338.11-.723.138-.394.028-.901.029-1.648.029-.747 0-1.255 0-1.649-.029-.384-.027-.583-.077-.722-.138a2 2 0 01-1.034-1.033c-.06-.14-.11-.339-.138-.723-.028-.394-.029-.902-.029-1.649zM13.857 17.429c0-.747.001-1.255.03-1.649.027-.384.077-.583.137-.723a2 2 0 011.034-1.033c.139-.06.338-.11.722-.138.394-.028.902-.029 1.649-.029s1.254 0 1.648.029c.385.027.584.077.723.138a2 2 0 011.033 1.033c.061.14.111.339.139.723.028.394.028.902.028 1.649 0 .746 0 1.254-.029 1.648-.027.385-.077.584-.138.723a2 2 0 01-1.033 1.033c-.14.06-.338.11-.723.138-.394.028-.901.029-1.648.029-.747 0-1.255 0-1.649-.029-.384-.027-.583-.077-.722-.138a2 2 0 01-1.034-1.033c-.06-.14-.11-.338-.138-.723-.028-.394-.029-.902-.029-1.648z"
-                        stroke="currentColor" strokeWidth="2"></path>
-                </svg>
+                <Home/>
+                {!isMini && <span>Dashboard</span>}
+            </NavigationItem>
 
-                <span>Dashboard</span>
+            <NavigationItem href="/cart">
+                <ShoppingCart/>
+                {!isMini && <span>Cart</span>}
+            </NavigationItem>
+
+            <NavigationItem href="/bill">
+                <FileText/>
+                {!isMini && <span>Bill</span>}
             </NavigationItem>
 
             <div className="flex-grow"></div>
 
-            <button className="flex items-center justify-center space-x-3 mb-14 hover:text-red-500 font-bold"
-                    onClick={logout}>
-                <svg viewBox="0 0 24 24" fill="none" focusable="false" className="w-6 h-6" aria-hidden="true">
-                    <path
-                        d="M16 17l5-5m0 0l-5-5m5 5H9m3 5c0 .93 0 1.395-.102 1.776a3 3 0 01-2.122 2.122C9.395 21 8.93 21 8 21h-.5c-1.398 0-2.097 0-2.648-.228a3 3 0 01-1.624-1.624C3 18.597 3 17.898 3 16.5v-9c0-1.398 0-2.097.228-2.648a3 3 0 011.624-1.624C5.403 3 6.102 3 7.5 3H8c.93 0 1.395 0 1.776.102a3 3 0 012.122 2.122C12 5.605 12 6.07 12 7"
-                        stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"></path>
-                </svg>
-
-                <span>Logout</span>
+            <button
+                className="flex items-center justify-center space-x-3 mb-14 hover:text-red-500 font-bold"
+                onClick={logout}
+            >
+                <LogOut/>
+                {!isMini && <span>Logout</span>}
             </button>
         </div>
-    )
+    );
 }

@@ -22,7 +22,7 @@ export default function Page() {
     const login = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/login`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,7 +76,7 @@ export default function Page() {
             <title>Mysorf | Login</title>
 
             <div className="w-full md:min-w-96 p-5 space-y-6 mt-16 md:mt-0">
-                <div className="w-fit md:text-5xl text-3xl font-semibold mb-20 bg-primary-100 p-2 rounded-xl">Login
+                <div className="w-fit md:text-5xl text-3xl font-semibold mb-20 bg-lime-100 p-2 rounded-xl">Login
                 </div>
 
                 <div className="flex items-center">
@@ -85,7 +85,7 @@ export default function Page() {
                     <div className="flex-grow"></div>
 
                     <Link href={"/register"}
-                          className="bg-primary-300 font-semibold md:text-base text-sm underline px-3 py-1 rounded-lg">
+                          className="bg-lime-300 font-semibold md:text-base text-sm underline px-3 py-1 rounded-lg">
                         Register
                     </Link>
                 </div>

@@ -20,7 +20,7 @@ export default function Page() {
             <title>Mysorf | Forgot Password</title>
 
             <div className="w-full md:min-w-96 p-5 space-y-6">
-                <div className="w-fit md:text-5xl text-3xl font-semibold mb-20 bg-primary-100 p-2 rounded-xl">
+                <div className="w-fit md:text-5xl text-3xl font-semibold mb-20 bg-lime-100 p-2 rounded-xl">
                     Forgot Password
                 </div>
 

@@ -32,7 +32,7 @@ function Register() {
     const register = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ function Register() {
             <title>Mysorf | Register</title>
 
             <div className="w-full md:min-w-96 p-5 space-y-6">
-                <div className="w-fit md:text-5xl text-3xl font-semibold mb-20 bg-primary-100 p-2 rounded-xl">
+                <div className="w-fit md:text-5xl text-3xl font-semibold mb-20 bg-lime-100 p-2 rounded-xl">
                     Register
                 </div>
 
@@ -95,7 +95,7 @@ function Register() {
                     <div className="flex-grow"></div>
 
                     <Link href={"/login"}
-                          className="bg-primary-300 font-semibold md:text-base text-sm underline px-3 py-1 rounded-lg">
+                          className="bg-lime-300 font-semibold md:text-base text-sm underline px-3 py-1 rounded-lg">
                         Login
                     </Link>
                 </div>

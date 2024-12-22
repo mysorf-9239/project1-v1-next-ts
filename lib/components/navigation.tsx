@@ -10,15 +10,23 @@ import {
     LogOut,
     ChevronLeft,
     ChevronRight,
+    Grid,
+    Package,
+    FilePlus,
 } from 'lucide-react';
 import Image from "next/image";
+import {useUser} from "@/lib/hooks/userContext";
 
 export default function Navigation() {
     const router = useRouter();
+    const {state, dispatch} = useUser();
+    const isAdmin: boolean = state.role === "admin";
+
     const [isMini, setIsMini] = useState(false);
 
     const logout = () => {
-        localStorage.removeItem('accessToken');
+        dispatch({type: "LOGOUT"});
+
         router.push('/login');
     };
 
@@ -63,6 +71,25 @@ export default function Navigation() {
                 <FileText/>
                 {!isMini && <span>Bill</span>}
             </NavigationItem>
+
+            {isAdmin && (
+                <>
+                    <NavigationItem href="/menu_manager">
+                        <Grid />
+                        {!isMini && <span>Menu Manager</span>}
+                    </NavigationItem>
+
+                    <NavigationItem href="/product_manager">
+                        <Package />
+                        {!isMini && <span>Product Manager</span>}
+                    </NavigationItem>
+
+                    <NavigationItem href="/bill_manager">
+                        <FilePlus />
+                        {!isMini && <span>Bill Manager</span>}
+                    </NavigationItem>
+                </>
+            )}
 
             <div className="flex-grow"></div>
 

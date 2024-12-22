@@ -4,9 +4,11 @@ import React from "react";
 import Link from "next/link";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
+import {useUser} from "@/lib/hooks/userContext";
 
 export default function Page() {
     const router = useRouter();
+    const { dispatch } = useUser();
 
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
@@ -40,6 +42,16 @@ export default function Page() {
             return Promise.reject(response);
         }).then((data) => {
             localStorage.setItem('accessToken', data.token);
+
+            dispatch({
+                type: "LOGIN",
+                payload: {
+                    id: data.user.id,
+                    name: data.user.name,
+                    email: data.user.email,
+                    role: data.user.role,
+                }
+            });
 
             router.push('/dashboard');
         }).catch(error => {

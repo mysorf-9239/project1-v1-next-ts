@@ -1,6 +1,26 @@
 import MobileNavigationItem from "@/lib/components/mobileNavigationItem";
+import {
+    Home,
+    ShoppingCart,
+    FileText,
+    ChartNoAxesGantt,
+    Grid,
+    Package,
+    FilePlus,
+} from 'lucide-react';
+import {useUser} from "@/lib/hooks/userContext";
+import {useState} from "react";
 
 export default function MobileNavigation() {
+    const {state} = useUser();
+    const isAdmin: boolean = state.role === "admin";
+
+    const [isManagerListVisible, setIsManagerListVisible] = useState(false);
+
+    const toggleManagerList = () => {
+        setIsManagerListVisible(prev => !prev);
+    };
+
     return (
         <>
             {/*<div className="fixed top-0 border-b border-black w-full px-5 py-4 bg-white">*/}
@@ -28,13 +48,52 @@ export default function MobileNavigation() {
             {/*</div>*/}
 
             <div className="fixed bottom-0 border-t border-black w-full rounded-t-3xl grid grid-cols-4 p-3 bg-white">
-                <MobileNavigationItem href="/dashboard">
-                    <svg viewBox="0 0 24 24" fill="none" focusable="false" className="h-6 w-6">
-                        <path
-                            d="M3 6.571c0-.746 0-1.254.029-1.648.027-.385.077-.584.138-.723A2 2 0 014.2 3.167c.14-.06.338-.11.723-.138C5.317 3 5.825 3 6.57 3c.747 0 1.255 0 1.649.029.384.027.584.077.723.138A2 2 0 019.976 4.2c.06.14.11.338.138.723.028.394.029.902.029 1.648 0 .747 0 1.255-.029 1.649-.027.384-.077.584-.138.723a2 2 0 01-1.033 1.033c-.14.06-.339.11-.723.138-.394.028-.902.029-1.649.029-.746 0-1.254 0-1.648-.029-.385-.027-.584-.077-.723-.138a2 2 0 01-1.033-1.033c-.06-.14-.11-.339-.138-.723C3 7.826 3 7.318 3 6.57zM3 17.429c0-.747 0-1.255.029-1.649.027-.384.077-.583.138-.723A2 2 0 014.2 14.024c.14-.06.338-.11.723-.138.394-.028.902-.029 1.648-.029.747 0 1.255 0 1.649.029.384.027.584.077.723.138a2 2 0 011.033 1.033c.06.14.11.339.138.723.028.394.029.902.029 1.649 0 .746 0 1.254-.029 1.648-.027.385-.077.584-.138.723a2 2 0 01-1.033 1.033c-.14.06-.339.11-.723.138C7.826 21 7.318 21 6.57 21c-.746 0-1.254 0-1.648-.029-.385-.027-.584-.077-.723-.138A2 2 0 013.167 19.8c-.06-.14-.11-.338-.138-.723C3 18.683 3 18.175 3 17.43zM13.857 6.571c0-.746.001-1.254.03-1.648.027-.385.077-.584.137-.723a2 2 0 011.034-1.033c.139-.06.338-.11.722-.138C16.174 3 16.682 3 17.43 3s1.254 0 1.648.029c.385.027.584.077.723.138A2 2 0 0120.833 4.2c.061.14.111.338.139.723.028.394.028.902.028 1.648 0 .747 0 1.255-.029 1.649-.027.384-.077.584-.138.723A2 2 0 0119.8 9.976c-.14.06-.338.11-.723.138-.394.028-.901.029-1.648.029-.747 0-1.255 0-1.649-.029-.384-.027-.583-.077-.722-.138a2 2 0 01-1.034-1.033c-.06-.14-.11-.339-.138-.723-.028-.394-.029-.902-.029-1.649zM13.857 17.429c0-.747.001-1.255.03-1.649.027-.384.077-.583.137-.723a2 2 0 011.034-1.033c.139-.06.338-.11.722-.138.394-.028.902-.029 1.649-.029s1.254 0 1.648.029c.385.027.584.077.723.138a2 2 0 011.033 1.033c.061.14.111.339.139.723.028.394.028.902.028 1.649 0 .746 0 1.254-.029 1.648-.027.385-.077.584-.138.723a2 2 0 01-1.033 1.033c-.14.06-.338.11-.723.138-.394.028-.901.029-1.648.029-.747 0-1.255 0-1.649-.029-.384-.027-.583-.077-.722-.138a2 2 0 01-1.034-1.033c-.06-.14-.11-.338-.138-.723-.028-.394-.029-.902-.029-1.648z"
-                            stroke="currentColor" strokeWidth="2"></path>
-                    </svg>
+                <MobileNavigationItem href="/cart">
+                    <ShoppingCart/>
                 </MobileNavigationItem>
+
+                <MobileNavigationItem href="/dashboard">
+                    <Home/>
+                </MobileNavigationItem>
+
+                <MobileNavigationItem href="/bill">
+                    <FileText/>
+                </MobileNavigationItem>
+
+                {isAdmin && (
+                    <div className="relative flex items-center justify-center">
+                        <div
+                            className={`p-3 cursor-pointer ${isManagerListVisible ? 'bg-lime-100 border border-black rounded-xl' : ''}`}
+                            onClick={toggleManagerList}
+                        >
+                            <ChartNoAxesGantt/>
+                        </div>
+
+                        {isManagerListVisible && (
+                            <div
+                                className="absolute -top-40 bottom-14 left-8 right-8 flex flex-col-reverse justify-center items-center border border-stone-300 bg-lime-100 rounded-xl">
+                                <div
+                                    className="cursor-pointer rounded-xl border border-lime-100 hover:border-stone-300 hover:bg-lime-200">
+                                    <MobileNavigationItem href="/menu_manager">
+                                        <Grid/>
+                                    </MobileNavigationItem>
+                                </div>
+                                <div
+                                    className="cursor-pointer rounded-xl border border-lime-100 hover:border-stone-300 hover:bg-lime-200">
+                                    <MobileNavigationItem href="/product_manager">
+                                        <Package/>
+                                    </MobileNavigationItem>
+                                </div>
+                                <div
+                                    className="cursor-pointer rounded-xl border border-lime-100 hover:border-stone-300 hover:bg-lime-200">
+                                    <MobileNavigationItem href="/bill_manager">
+                                        <FilePlus/>
+                                    </MobileNavigationItem>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
             </div>
         </>
     )

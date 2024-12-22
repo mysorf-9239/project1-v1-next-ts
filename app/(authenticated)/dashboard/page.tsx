@@ -8,7 +8,7 @@ export default function Page() {
         <>
             <title>Mysorf | Dashboard</title>
 
-            <div>Dashboard</div>
+            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Dashboard</div>
         </>
     )
 }

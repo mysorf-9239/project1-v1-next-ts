@@ -2,12 +2,9 @@
 
 import React, {useEffect} from "react";
 import {useRouter} from "next/navigation";
-import Modal from 'react-modal';
 import {ToastContainer} from "react-toastify";
 import Navigation from "@/lib/components/navigation";
 import MobileNavigation from "@/lib/components/mobileNavigation";
-
-Modal.setAppElement('body');
 
 export default function Layout({children}: Readonly<{ children: React.ReactNode }>) {
     const router = useRouter();
@@ -25,7 +22,7 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode 
             <ToastContainer/>
 
             <div className="h-screen flex">
-                <div className="min-w-fit w-1/5 h-screen hidden md:block">
+                <div className="min-w-fit h-screen hidden md:block">
                     <Navigation/>
                 </div>
 

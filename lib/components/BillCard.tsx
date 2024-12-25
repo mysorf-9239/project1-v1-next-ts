@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {toast} from "react-toastify";
 import HandlerError from "@/lib/utils/handlerError";
+import {usePathname} from "next/navigation";
 
 interface BillProducts {
     quantity: number;
@@ -34,6 +35,7 @@ interface BillCardProps {
 
 const BillCard: React.FC<BillCardProps> = ({ bill }) => {
     const [loading, setLoading] = useState(false);
+    const pathname = usePathname();
 
     const deleteBill = () => {
         setLoading(true);
@@ -65,19 +67,21 @@ const BillCard: React.FC<BillCardProps> = ({ bill }) => {
             <p className="whitespace-nowrap font-semibold">Total amount: {bill.amount} đ</p>
             <p className="whitespace-nowrap font-semibold">Date: {new Date(bill.createdAt).toLocaleDateString()}</p>
 
-            <div className="absolute top-0 right-1">
-                <button
-                    type="button"
-                    onClick={deleteBill}
-                    className="w-10 h-10 border border-black rounded-xl bg-red-200 hover:border-b-4 transition-all duration-300"
-                >
-                    {loading ? (
-                        <span className="fa fa-spinner animate-spin"></span>
-                    ): (
-                        <span className="fa fa-trash-can"></span>
-                    )}
-                </button>
-            </div>
+            {pathname === '/bill_manager' && (
+                <div className="absolute top-0 right-1">
+                    <button
+                        type="button"
+                        onClick={deleteBill}
+                        className="w-10 h-10 border border-black rounded-xl bg-red-200 hover:border-b-4 transition-all duration-300"
+                    >
+                        {loading ? (
+                            <span className="fa fa-spinner animate-spin"></span>
+                        ) : (
+                            <span className="fa fa-trash-can"></span>
+                        )}
+                    </button>
+                </div>
+            )}
 
             <div className="space-y-2">
                 <p className="font-semibold">Products: {bill.products.length}</p>
@@ -88,7 +92,7 @@ const BillCard: React.FC<BillCardProps> = ({ bill }) => {
                                 key={product.id}
                                 className="flex justify-around border rounded-lg p-1 px-3 bg-white shadow-md"
                             >
-                                <p className="whitespace-nowrap">Name: {product.name}</p>
+                            <p className="whitespace-nowrap">Name: {product.name}</p>
                                 <div className="flex-grow"></div>
                                 <p className="whitespace-nowrap">Quantity: {product.BillProducts.quantity}</p>
                             </div>

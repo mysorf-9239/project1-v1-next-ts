@@ -1,23 +1,25 @@
-import React, {useState} from 'react'
-import {encodeImageToBase64} from "@/lib/components/imageHandler";
+import React, {useState} from 'react';
+import {encodeImageToBase64} from '@/lib/components/imageHandler';
+import {toast} from 'react-toastify';
+import HandlerError from "@/lib/utils/handlerError";
 
 export default function AddProduct() {
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState('');
-    const [imageBase64, setImageBase64] = useState('');
+    const [imageBase64, setImageBase64] = useState<string | null>(null);
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
-    }
+    };
 
     const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setDescription(event.target.value);
-    }
+    };
 
     const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPrice(event.target.value);
-    }
+    };
 
     const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
@@ -27,9 +29,46 @@ export default function AddProduct() {
                 setImageBase64(base64);
             } catch (error) {
                 console.error('Failed to encode image:', error);
+                toast.error('Failed to process image.');
             }
         }
-    }
+    };
+
+    const createProduct = () => {
+        const productData: {
+            name: string;
+            description: string;
+            price: number;
+            image?: string;
+        } = {
+            name,
+            description,
+            price: parseFloat(price),
+        };
+
+        if (imageBase64) {
+            productData.image = imageBase64;
+        }
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+            body: JSON.stringify(productData),
+        }).then((response) => {
+            if (response.ok) return response.json();
+            return Promise.reject(response);
+        }).then((data) => {
+            console.log(data);
+            toast.success('Product created successfully!', {
+                position: 'top-right',
+                autoClose: 5000,
+            });
+        }).catch((error) => HandlerError(error));
+    };
 
     return (
         <div className="mt-4 p-4 border border-gray-300 rounded space-y-4">
@@ -90,6 +129,13 @@ export default function AddProduct() {
                     />
                 )}
             </div>
+
+            <button
+                onClick={createProduct}
+                className="bg-green-500 text-white px-4 py-2 rounded mt-4"
+            >
+                Save Product
+            </button>
         </div>
     );
 }

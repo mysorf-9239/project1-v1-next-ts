@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {toast} from 'react-toastify';
+import HandlerError from "@/lib/utils/handlerError";
 
 interface Product {
     id: number;
@@ -41,6 +42,27 @@ export default function AddMenu({products}: AddMenuProps) {
         setProductAdd(productAdd.filter((productId) => productId !== id));
     };
 
+    const addProductToCart = (menuId: number, productIds: number[]) => {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/menus/${menuId}/products`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+            body: JSON.stringify({
+                productIds,
+            }),
+        }).then((response) => {
+            if (response.ok) return response.json();
+            return Promise.reject(response);
+        }).then(() => {
+            toast.success('Menu created and products added successfully!', {
+                position: 'top-right',
+                autoClose: 5000,
+            });
+        }).catch((error) => HandlerError(error));
+    };
+
     const createEmptyMenu = () => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/menus`, {
             method: 'POST',
@@ -63,44 +85,7 @@ export default function AddMenu({products}: AddMenuProps) {
             } else {
                 toast.success("Create menu successfully");
             }
-        }).catch((error) => handleError(error));
-    };
-
-    const addProductToCart = (menuId: number, productIds: number[]) => {
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}/menus/${menuId}/products`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-            },
-            body: JSON.stringify({
-                productIds,
-            }),
-        }).then((response) => {
-            if (response.ok) return response.json();
-            return Promise.reject(response);
-        }).then(() => {
-            toast.success('Menu created and products added successfully!', {
-                position: 'top-right',
-                autoClose: 5000,
-            });
-        }).catch((error) => handleError(error));
-    };
-
-    const handleError = (error: Error) => {
-        if (error instanceof Response) {
-            error.json().then((data) => {
-                toast.error(data.message || 'An error occurred', {
-                    position: 'top-right',
-                    autoClose: 5000,
-                });
-            });
-        } else {
-            toast.error('Server Error', {
-                position: 'top-right',
-                autoClose: 5000,
-            });
-        }
+        }).catch((error) => HandlerError(error));
     };
 
     return (

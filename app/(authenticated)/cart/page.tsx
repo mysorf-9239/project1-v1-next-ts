@@ -20,6 +20,9 @@ export default function Page() {
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        const cart = getCart();
+        setCartData(cart);
+
         const total = cartData.reduce((sum, product) => sum + product.price * product.quantity, 0);
         setTotalAmount(total);
     }, [cartData]);
@@ -48,9 +51,8 @@ export default function Page() {
 
     const handleOrder = () => {
         if (cartData.length > 0) {
-
-            const deviceId = localStorage.getItem("uuid");
-            const token = localStorage.getItem("accessToken");
+            const deviceId = typeof window !== "undefined" ? localStorage.getItem("uuid") : null;
+            const token = typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
 
             if (!deviceId) {
                 toast.error("Device ID is missing.");
@@ -72,33 +74,36 @@ export default function Page() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    ...(token && {Authorization: `Bearer ${token}`}),
+                    ...(token && { Authorization: `Bearer ${token}` }),
                 },
                 body: JSON.stringify(orderData),
-            }).then((response) => {
-                if (!response.ok) {
-                    return Promise.reject(response);
-                }
-
-                return response.json();
-            }).then(() => {
-                handleClearCart();
-                toast.success("Create bill success");
-            }).catch((error) => {
-                if (error instanceof Response) {
-                    error.json().then((data) => {
-                        console.error(data.message);
-                    });
-                } else {
-                    console.error("Internal Server Error", error);
-                }
-            }).finally(() => {
-                setLoading(false);
-            });
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        return Promise.reject(response);
+                    }
+                    return response.json();
+                })
+                .then(() => {
+                    handleClearCart();
+                    toast.success("Create bill success");
+                })
+                .catch((error) => {
+                    if (error instanceof Response) {
+                        error.json().then((data) => {
+                            console.error(data.message);
+                        });
+                    } else {
+                        console.error("Internal Server Error", error);
+                    }
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         } else {
             toast.error("Cart is empty!");
         }
-    }
+    };
 
     return (
         <>

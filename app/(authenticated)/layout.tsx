@@ -30,7 +30,7 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode 
                     <MobileNavigation/>
                 </div>
 
-                <div className="p-5 md:p-10 mb-20 md:mb-0 mt-20 md:mt-0 overflow-y-scroll w-full">
+                <div className="overflow-y-scroll w-full">
                     {children}
                 </div>
             </div>

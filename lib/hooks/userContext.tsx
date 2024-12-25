@@ -3,6 +3,7 @@
 import React, {createContext, useEffect, useReducer, ReactNode, useContext} from "react";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { v4 as uuidv4 } from 'uuid';
+import {toast} from "react-toastify";
 
 export const UserContext = createContext<ContextType | undefined>(undefined);
 
@@ -115,10 +116,10 @@ const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
                 .catch((error) => {
                     if (error instanceof Response) {
                         error.json().then((data) => {
-                            console.error(data.message);
+                            toast.error(data.message);
                         });
                     } else {
-                        console.error("Internal Server Error", error);
+                        toast.error("Internal Server Error", error);
                     }
                 });
         } else {

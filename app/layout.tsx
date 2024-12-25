@@ -1,6 +1,7 @@
 import React from "react";
 import type {Metadata} from "next";
 import ContextProvider from "@/lib/hooks/userContext";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import "./globals.css";
 
 export const metadata: Metadata = {

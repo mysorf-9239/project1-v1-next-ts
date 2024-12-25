@@ -10,19 +10,20 @@ interface Product {
 
 export default function ProductMenuCard({ product }: { product: Product }) {
     return (
-        <div className="border p-4 rounded-3xl relative flex">
-            <div className="w-1/4 border-2 rounded-2xl">
-                <img
-                    src={product.image || "/default-image.jpg"}
-                    alt={product.name}
-                    className="w-full h-auto rounded-xl object-cover"
-                />
-            </div>
-
-            <div className="w-3/4">
-                <h2 className="text-xl font-bold mb-2 text-center">{product.name}</h2>
-                <p className="text-gray-600 mb-4 pl-5">Giá: {product.price}</p>
-                <p className="text-gray-600 pl-5">{product.description}</p>
+        <div className="flex max-w-[500px] min-h-[100px] w-full bg-white rounded-xl shadow-md p-3 items-center border">
+            <img
+                src={product.image !== "#" ? product.image : "/default-image.png"}
+                alt={product.name}
+                className="w-12 h-12 rounded-lg mx-1"
+            />
+            <div className="w-full mx-1">
+                <p className="text-base text-left font-semibold mb-1 mx-1">{product.name}</p>
+                <div className="flex">
+                    <div className="w-full text-left ml-1">
+                        <p className="text-xs">{product.description}</p>
+                        <span className="text-primary-600 text-sm font-bold">{product.price.toLocaleString()} đ</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

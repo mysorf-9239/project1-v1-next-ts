@@ -4,7 +4,6 @@ import React, {useState, useEffect} from "react";
 import {getCart, removeAll, addToCart, subFromCart, removeFromCart} from "@/lib/utils/cartManager";
 import CartCard from "@/lib/components/cartCard";
 import {toast} from "react-toastify";
-import Loading from "@/lib/components/Loading";
 
 interface Product {
     id: number;
@@ -107,7 +106,7 @@ export default function Page() {
 
             <div className="flex flex-col h-screen">
                 <div
-                    className="flex items-center justify-between bg-gradient-to-tr from-orange-500 via-orange-400 to-yellow-500 text-blue-900 h-12">
+                    className="flex items-center justify-between bg-gradient-to-tr from-primary-300 via-primary-200 to-primary-400 text-secondary-900 h-12">
                     <span className="w-12 h-12"></span>
                     <h2 className="flex-1 text-2xl font-semibold my-auto text-center">Giỏ hàng của bạn</h2>
                     <span
@@ -117,38 +116,37 @@ export default function Page() {
                     </span>
                 </div>
 
-                {loading ? (
-                    <Loading/>
-                ) : (
-                    <div className="flex-1 overflow-y-auto">
-                        {cartData.length > 0 ? (
-                            <div
-                                className="flex flex-col space-y-3 lg:px-20 md:px-10 px-5 py-5 justify-center items-center">
-                                {cartData.map((product) => (
-                                    <CartCard
-                                        key={product.id}
-                                        product={product}
-                                        onAdd={handleAddToCart}
-                                        onSub={handleSubFromCart}
-                                        onRemove={handleRemoveProduct}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-center mt-10">Giỏ hàng của bạn đang trống.</p>
-                        )}
-                    </div>
-                )}
+
+                <div className="flex-1 overflow-y-auto">
+                    {cartData.length > 0 ? (
+                        <div
+                            className="flex flex-col space-y-3 lg:px-20 md:px-10 px-5 py-5 justify-center items-center">
+                            {cartData.map((product) => (
+                                <CartCard
+                                    key={product.id}
+                                    product={product}
+                                    onAdd={handleAddToCart}
+                                    onSub={handleSubFromCart}
+                                    onRemove={handleRemoveProduct}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <p className="text-center mt-10">Giỏ hàng của bạn đang trống.</p>
+                    )}
+                </div>
 
                 <div className="w-full bg-white">
                     <p className="text-lg font-bold text-right pr-10 py-3">
                         Tổng tiền: {totalAmount.toLocaleString()} đ</p>
                     <button
-                        className="px-4 py-3 bg-gradient-to-br from-orange-500 via-orange-400 to-yellow-500 text-blue-900 font-bold rounded text-lg w-full"
+                        className="px-4 py-3 bg-gradient-to-br from-primary-300 via-primary-200 to-primary-400 text-secondary-900 font-bold rounded text-lg w-full"
                         onClick={handleOrder}
                         disabled={loading}
                     >
-                        {loading ? "Đang xử lý..." : "Gọi món"}
+                        {loading ? (
+                            <span className="fa fa-spinner animate-spin"></span>
+                        ) : "Gọi món"}
                     </button>
                 </div>
             </div>

@@ -76,17 +76,17 @@ export default function Navigation() {
                 <>
                     <NavigationItem href="/menu_manager">
                         <Grid />
-                        {!isMini && <span>Menu Manager</span>}
+                        {!isMini && <span className="whitespace-nowrap">Menu Manager</span>}
                     </NavigationItem>
 
                     <NavigationItem href="/product_manager">
                         <Package />
-                        {!isMini && <span>Product Manager</span>}
+                        {!isMini && <span className="whitespace-nowrap">Product Manager</span>}
                     </NavigationItem>
 
                     <NavigationItem href="/bill_manager">
                         <FilePlus />
-                        {!isMini && <span>Bill Manager</span>}
+                        {!isMini && <span className="whitespace-nowrap">Bill Manager</span>}
                     </NavigationItem>
                 </>
             )}

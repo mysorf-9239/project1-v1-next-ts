@@ -5,6 +5,8 @@ import {useRouter} from "next/navigation";
 import AddProduct from "@/lib/components/addProduct";
 import {toast} from "react-toastify";
 import Loading from "@/lib/components/Loading";
+import SubmitButton from "@/lib/components/submitButton";
+import ProductManagerCard from "@/lib/components/ProductManagerCard";
 
 interface Product {
     id: number;
@@ -54,32 +56,27 @@ export default function Page() {
 
             <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Create Product</div>
 
-            <button
-                onClick={() => setIsAdd(prev => !prev)}
-                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-            >
-                {isAdd ? 'Cancel' : 'Add Product'}
-            </button>
+            <div className="relative pt-5">
+                <div className="absolute -top-0 right-10 flex items-center justify-center space-x-5 z-10">
+                    <SubmitButton
+                        content={<span className={`fa ${isAdd ? 'fa-cancel' : 'fa-add'}`}></span>}
+                        onClick={() => setIsAdd(!isAdd)}
+                    />
+                </div>
+            </div>
 
             {isLoading ? (
                 <Loading/>
             ) : isAdd ? (
                 <AddProduct/>
             ) : (
-                <div className="mt-5">
+                <div className="mt-8 px-5 flex flex-col space-y-8">
                     {products.length > 0 ? (
                         products.map((product) => (
-                            <div key={product.id}
-                                 className="border border-gray-300 p-3 mb-3 rounded-md shadow-md">
-                                <p><strong>Name:</strong> {product.name}</p>
-                                <p><strong>Description:</strong> {product.description}</p>
-                                <p><strong>Price:</strong> {product.price}</p>
-                                <img
-                                    src={product.image}
-                                    alt={product.name}
-                                    className="w-20 h-20 object-cover mt-2"
-                                />
-                            </div>
+                            <ProductManagerCard
+                                key={product.id}
+                                product={product}
+                            />
                         ))
                     ) : (
                         <p>No products available</p>

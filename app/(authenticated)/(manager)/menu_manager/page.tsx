@@ -6,6 +6,8 @@ import Loading from "@/lib/components/Loading";
 import {MenuWithProduct, MenuOnly} from "@/lib/components/menuManagerCard";
 import {useRouter} from "next/navigation";
 import AddMenu from "@/lib/components/addMenu";
+import SubmitButton from "@/lib/components/submitButton";
+import HandlerError from "@/lib/utils/handlerError";
 
 interface Product {
     id: number;
@@ -70,8 +72,8 @@ export default function Page() {
             return Promise.reject(response);
         }).then((data: Product[]) => {
             setProducts(data);
-        }).catch(() => {
-            toast.error('Lỗi khi tải dữ liệu menu');
+        }).catch((error) => {
+            HandlerError(error);
         }).finally(() => {
             setIsLoading(false);
         });
@@ -88,19 +90,19 @@ export default function Page() {
 
             <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Cart</div>
 
-            <div>
-                <button
-                    onClick={() => setIsVisible(!isVisible)}
-                    className="border border-gray-300 p-3 mb-3 rounded-md shadow-md"
-                >
-                    View
-                </button>
-                <button
-                    onClick={() => setIsAdd(!isAdd)}
-                    className="border border-gray-300 p-3 mb-3 rounded-md shadow-md"
-                >
-                    Add Menu
-                </button>
+            <div className="relative pt-5">
+                <div className="absolute -top-0 right-10 flex items-center justify-center space-x-5">
+                    {!isAdd && (
+                        <SubmitButton
+                            content={<span className={`fa ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></span>}
+                            onClick={() => setIsVisible(!isVisible)}
+                        />
+                    )}
+                    <SubmitButton
+                        content={<span className={`fa ${isAdd ? 'fa-cancel' : 'fa-add'}`}></span>}
+                        onClick={() => setIsAdd(!isAdd)}
+                    />
+                </div>
             </div>
 
             {isAdd ? (
@@ -112,7 +114,7 @@ export default function Page() {
                     {isLoading ? (
                         <Loading/>
                     ) : isVisible ? (
-                        <div className="mt-5">
+                        <div className="mt-5 px-5">
                             {menus.length > 0 ? (
                                 menus.map((item) => (
                                     <MenuOnly
@@ -129,7 +131,7 @@ export default function Page() {
                             )}
                         </div>
                     ) : (
-                        <div className="mt-5">
+                        <div className="flex flex-col mt-5 px-5 space-y-8">
                             {menus.length > 0 ? (
                                 menus.map(menu => (
                                     <MenuWithProduct

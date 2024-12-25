@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {toast} from 'react-toastify';
 import HandlerError from "@/lib/utils/handlerError";
+import SubmitButton from "@/lib/components/submitButton";
 
 interface Product {
     id: number;
@@ -89,37 +90,37 @@ export default function AddMenu({products}: AddMenuProps) {
     };
 
     return (
-        <div className="mt-4 p-4 border border-gray-300 rounded space-y-4">
-            <h2 className="text-xl font-bold">Add Menu</h2>
+        <div className="mt-8 bg-white border shadow-md space-y-4 p-5 mx-5 rounded-2xl">
+            <h2 className="text-center text-2xl font-semibold">Add Menu</h2>
 
-            <div>
-                <label className="block font-medium">Name</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Name</label>
                 <input
                     type="text"
                     name="name"
                     value={name}
                     onChange={handleNameChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
             </div>
 
-            <div>
-                <label className="block font-medium">Description</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Description</label>
                 <textarea
                     name="description"
                     value={description}
                     onChange={handleDescriptionChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
             </div>
 
-            <div>
-                <label className="block font-medium">Select Product</label>
-                <div className="flex items-center space-x-2 mt-1">
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium whitespace-nowrap w-32">Select Product</label>
+                <div className="flex w-full items-center space-x-2 mt-1">
                     <select
                         value={selectedProductId || ''}
                         onChange={handleProductSelect}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none"
                     >
                         <option value="" disabled>
                             Select a product
@@ -130,45 +131,44 @@ export default function AddMenu({products}: AddMenuProps) {
                             </option>
                         ))}
                     </select>
-                    <button
+                    <SubmitButton
+                        content="Add"
                         onClick={handleAddProduct}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                        Add
-                    </button>
+                    />
                 </div>
             </div>
 
             <div>
                 <h3 className="font-medium mt-4">Selected Products:</h3>
                 {productAdd.length > 0 ? (
-                    <ul className="mt-2 list-disc pl-5 space-y-1">
+                    <div className="mt-2">
                         {productAdd.map((productId) => {
                             const product = products.find((p) => p.id === productId);
                             return (
-                                <li key={productId} className="flex justify-between items-center">
-                                    <span>{product?.name}</span>
-                                    <button
+                                <div key={productId}
+                                     className="flex justify-center p-2 rounded-md items-center border border-gray-400">
+                                    <div className="flex-grow w-10"></div>
+                                    <p className="whitespace-nowrap">Product name: {product?.name}</p>
+                                    <div className="flex-grow"></div>
+                                    <SubmitButton
+                                        content={<span className="fa fa-trash-alt"></span>}
                                         onClick={() => handleRemoveProduct(productId)}
-                                        className="text-red-500"
-                                    >
-                                        Remove
-                                    </button>
-                                </li>
+                                    />
+                                </div>
                             );
                         })}
-                    </ul>
+                    </div>
                 ) : (
                     <p className="text-gray-500 mt-2">No products added yet.</p>
                 )}
             </div>
 
-            <button
-                onClick={createEmptyMenu}
-                className="bg-green-500 text-white px-4 py-2 rounded mt-4"
-            >
-                Save Menu
-            </button>
+            <div className="flex justify-center items-center">
+                <SubmitButton
+                    content={<span className="fa fa-save"> Create Menu</span>}
+                    onClick={createEmptyMenu}
+                />
+            </div>
         </div>
     );
 }

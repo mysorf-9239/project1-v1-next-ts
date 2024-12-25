@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import HandlerError from "@/lib/utils/handlerError";
 import {toast} from "react-toastify";
+import SubmitButton from "@/lib/components/submitButton";
 
 interface Product {
     id: number;
@@ -137,47 +138,41 @@ export default function EditMenu({
     }
 
     return (
-        <div className="p-4 border border-gray-300 rounded space-y-4">
-            <h2 className="text-xl font-bold">Edit Menu</h2>
-
-            <div>
-                <label className="block font-medium">Name</label>
+        <div className="p-4 space-y-4">
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Name: </label>
                 <input
                     type="text"
                     value={name}
                     onChange={handleNameChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
-                <button
-                    type="button"
+                <SubmitButton
+                    content="Change"
                     onClick={handleChangeName}
-                >
-                    Change
-                </button>
+                />
             </div>
 
-            <div>
-                <label className="block font-medium">Description</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Description: </label>
                 <textarea
                     value={description}
                     onChange={handleDescriptionChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
-                <button
-                    type="button"
+                <SubmitButton
+                    content="Change"
                     onClick={handleChangeDescription}
-                >
-                    Change
-                </button>
+                />
             </div>
 
-            <div>
-                <label className="block font-medium">Select Product</label>
-                <div className="flex items-center space-x-2 mt-1">
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Add Product: </label>
+                <div className="flex w-full items-center space-x-2">
                     <select
                         value={selectedProductId || ''}
                         onChange={handleProductSelect}
-                        className="w-full p-2 border border-gray-300 rounded"
+                        className="w-full p-2 border border-gray-300 rounded focus:outline-none"
                     >
                         <option value="" disabled>Select a product</option>
                         {allProducts.map((product) => (
@@ -186,36 +181,37 @@ export default function EditMenu({
                             </option>
                         ))}
                     </select>
-                    <button
-                        type="button"
+                    <SubmitButton
+                        content="Add"
                         onClick={handlerAddProduct}
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                        Add
-                    </button>
+                    />
                 </div>
             </div>
 
-            <div>
-                <h3 className="font-medium mt-4">Selected Products:</h3>
+            <div className="flex flex-col w-full justify-center items-start h-36">
+                <h3 className="font-medium">Selected Products:</h3>
                 {productAdd.length > 0 ? (
-                    <ul className="mt-2 list-disc pl-5 space-y-1">
+                    <div className="flex flex-col w-full py-2 px-5 overflow-y-scroll h-32 space-y-2">
                         {productAdd.map((productId) => {
                             const product = allProducts.find((p) => p.id === productId);
                             return (
-                                <li key={productId} className="flex justify-between items-center">
-                                    <span>{product?.name}</span>
+                                <div key={productId}
+                                     className="flex justify-center p-2 rounded-md items-center border border-stone-400 shadow-md">
+                                    <div className="flex-grow w-10"></div>
+                                    <p className="whitespace-nowrap">Product name: {product?.name}</p>
+                                    <div className="flex-grow"></div>
+
                                     <button
                                         type="button"
                                         onClick={() => handlerRemoveProduct(productId)}
-                                        className="text-red-500"
+                                        className="px-2 py-1 bg-lime-200 border border-black rounded-xl hover:border-b-4 transition-all duration-300 font-semibold"
                                     >
-                                        Remove
+                                        <span className="fa fa-trash-alt"></span>
                                     </button>
-                                </li>
+                                </div>
                             );
                         })}
-                    </ul>
+                    </div>
                 ) : (
                     <p className="text-gray-500 mt-2">No products added yet.</p>
                 )}

@@ -47,7 +47,7 @@ export default function MobileNavigation() {
             {/*  </div>*/}
             {/*</div>*/}
 
-            <div className="fixed bottom-0 border-t border-black w-full rounded-t-3xl grid grid-cols-4 p-3 bg-white">
+            <div className="fixed bottom-0 border-t border-black w-full rounded-t-3xl grid grid-cols-4 p-3 bg-stone-100">
                 <MobileNavigationItem href="/cart">
                     <ShoppingCart/>
                 </MobileNavigationItem>

@@ -1,40 +1,95 @@
 'use client';
 
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
+import {useRouter} from "next/navigation";
+import HandlerError from "@/lib/utils/handlerError";
+import Loading from "@/lib/components/Loading";
+import BillCard from "@/lib/components/BillCard";
+
+interface BillProducts {
+    quantity: number;
+}
+
+interface Product {
+    id: number,
+    name: string,
+    description: string,
+    image: string,
+    price: number,
+    BillProducts: BillProducts,
+}
+
+interface User {
+    name: string,
+    email: string,
+}
+
+interface Bill {
+    id: number,
+    device_id: number,
+    amount: number,
+    createdAt: string,
+    updatedAt: string,
+    user_id: number,
+    user: User,
+    products: Product[],
+}
 
 export default function Page() {
-    const [isOpen, setIsOpen] = useState(false);
+    const router = useRouter();
+    const [loading, setLoading] = useState<boolean>(false);
+    const [bills, setBills] = useState<Bill[]>([]);
 
-    const toggleSection = () => {
-        setIsOpen(!isOpen);
-    };
+    useEffect(() => {
+        setLoading(true);
+
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/bills`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+        }).then((response) => {
+            if (!response.ok) {
+                return Promise.reject(response);
+            }
+
+            return response.json();
+        }).then((data: Bill[]) => {
+            setBills(data);
+            setLoading(false);
+        }).catch(error => {
+            HandlerError(error);
+        }).finally(() => {
+            setLoading(false);
+        });
+    }, [router]);
 
     return (
         <>
             <title>Mysorf | Bill Management</title>
 
-            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Cart</div>
+            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Bill Manager</div>
 
-            <div className="w-1/2">
-                <div className="flex h-20 w-full justify-between border border-black bg-lime-200">
-                    <div className="flex flex-col items-center justify-center">
-                        <p>Line 1</p>
-                        <p>Line 2</p>
-                    </div>
-                    <button
-                        onClick={toggleSection}
-                        className="border bg-red-500 p-2"
-                    >
-                        {isOpen ? "Close" : "Open"}
-                    </button>
+            {loading ? (
+                <Loading/>
+            ) : (
+                <div className="p-5 pt-8">
+                    {bills.length > 0 ? (
+                        <div className="flex flex-wrap gap-5 justify-start">
+                            {bills.map((bill) => (
+                                <BillCard
+                                    key={bill.id}
+                                    bill={bill}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <p>No bills available yet.</p>
+                    )}
                 </div>
-
-                <div
-                    className={`mx-2 overflow-hidden bg-stone-500 transition-all duration-500 ease-in-out ${isOpen ? "h-10" : "h-0"}`}
-                >
-                    <p className="text-center">Line 3</p>
-                </div>
-            </div>
+            )}
         </>
     )
 }

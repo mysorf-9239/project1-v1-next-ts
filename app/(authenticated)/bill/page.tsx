@@ -1,9 +1,10 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
-import {toast} from "react-toastify";
 import Loading from "@/lib/components/Loading";
 import {useRouter} from "next/navigation";
+import BillCard from "@/lib/components/BillCard";
+import HandlerError from "@/lib/utils/handlerError";
 
 interface BillProducts {
     quantity: number;
@@ -39,7 +40,6 @@ export default function Page() {
     const [loading, setLoading] = useState<boolean>(false);
     const [bills, setBills] = useState<Bill[]>([]);
 
-    // Function to fetch user by token
     const getUserId = (token: string) => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/id`, {
             method: 'GET',
@@ -66,39 +66,10 @@ export default function Page() {
                 }))
             );
         }).catch(error => {
-            handleFetchError(error);
+            HandlerError(error);
         }).finally(() => {
             setLoading(false);
         });
-    }
-
-    // Function to handle errors uniformly
-    const handleFetchError = (error: Error) => {
-        if (error instanceof Response) {
-            error.json().then((data) => {
-                toast.error(
-                    <div className="text-black space-y-2 px-3">
-                        <p>{data.message}</p>
-                    </div>, {
-                        position: "top-right",
-                        autoClose: 5_000,
-                        hideProgressBar: true,
-                        className: "bg-red-100 border border-black rounded-xl w-full shadow-[0px_5px_0px_0px_#191A23]",
-                        closeButton: false
-                    });
-            })
-        } else {
-            toast.error(
-                <div className="text-black space-y-2 px-3">
-                    <p>Server Error</p>
-                </div>, {
-                    position: "top-right",
-                    autoClose: 5_000,
-                    hideProgressBar: true,
-                    className: "bg-red-100 border border-black rounded-xl w-full shadow-[0px_5px_0px_0px_#191A23]",
-                    closeButton: false
-                });
-        }
     }
 
     useEffect(() => {
@@ -125,7 +96,7 @@ export default function Page() {
                 getUserId(token);
             }
         }).catch(error => {
-            handleFetchError(error);
+            HandlerError(error);
         }).finally(() => {
             setLoading(false);
         });
@@ -138,50 +109,19 @@ export default function Page() {
             <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Bill</div>
 
             {loading ? (
-                <Loading/>
+                <Loading />
             ) : (
-                <>
+                <div className="p-5 pt-8">
                     {bills.length > 0 ? (
-                        <div>
-                            {bills.map((bill: Bill) => (
-                                <div
-                                    key={bill.id}
-                                    className="border border-gray-300 p-3 mb-3 rounded-md shadow-md"
-                                >
-                                    <p>
-                                        <strong>Bill ID:</strong> {bill.id}
-                                    </p>
-                                    <p>
-                                        <strong>User:</strong> {bill.user?.name || 'N/A'}
-                                    </p>
-                                    <p>
-                                        <strong>Amount:</strong> ${bill.amount}
-                                    </p>
-                                    <p>
-                                        <strong>Date:</strong>{' '}
-                                        {new Date(bill.createdAt).toLocaleDateString()}
-                                    </p>
-                                    <div>
-                                        <strong>Products:</strong>
-                                        {bill.products?.length > 0 ? (
-                                            <ul className="list-disc ml-5">
-                                                {bill.products.map((product: Product) => (
-                                                    <li key={product.id}>
-                                                        {product.name} (Qty: {product.BillProducts.quantity})
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        ) : (
-                                            <p>No products in this bill.</p>
-                                        )}
-                                    </div>
-                                </div>
+                        <div className="flex flex-wrap gap-5 justify-start">
+                            {bills.map((bill) => (
+                                <BillCard key={bill.id} bill={bill}/>
                             ))}
                         </div>
                     ) : (
                         <p>No bills available yet.</p>
                     )}
-                </>
+                </div>
             )}
         </>
     );

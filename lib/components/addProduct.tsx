@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import {encodeImageToBase64} from '@/lib/components/imageHandler';
 import {toast} from 'react-toastify';
 import HandlerError from "@/lib/utils/handlerError";
+import SubmitButton from "@/lib/components/submitButton";
 
 export default function AddProduct() {
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
+    const [description, setDescription] = useState('Nothing');
+    const [price, setPrice] = useState('0');
     const [imageBase64, setImageBase64] = useState<string | null>(null);
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -71,71 +72,76 @@ export default function AddProduct() {
     };
 
     return (
-        <div className="mt-4 p-4 border border-gray-300 rounded space-y-4">
-            <h2 className="text-xl font-bold">Add Product</h2>
+        <div className="mt-8 border shadow-md space-y-4 p-5 mx-5 rounded-2xl">
+            <h2 className="text-center text-2xl font-semibold">Add Product</h2>
 
-            <div>
-                <label className="block font-medium">Name</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Name</label>
                 <input
                     type="text"
                     name="name"
                     value={name}
                     onChange={handleNameChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
             </div>
 
-            <div>
-                <label className="block font-medium">Description</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Description</label>
                 <textarea
                     name="description"
                     value={description}
                     onChange={handleDescriptionChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
             </div>
 
-            <div>
-                <label className="block font-medium">Price</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium w-32">Price</label>
                 <input
                     type="number"
                     name="price"
                     value={price}
                     onChange={handlePriceChange}
-                    className="w-full p-2 border border-gray-300 rounded mt-1"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
             </div>
 
-            <div>
-                <label className="block font-medium">Upload Image</label>
+            <div className="flex justify-center items-center space-x-4">
+                <label className="block font-medium whitespace-nowrap w-32">Upload Image</label>
                 <input
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    className="mt-2"
+                    className="w-full p-2 border border-gray-300 rounded mt-1 focus:outline-none"
                 />
             </div>
 
-            <div className="mt-4">
-                <h3 className="font-medium">Preview:</h3>
-                <p><strong>Name:</strong> {name}</p>
-                <p><strong>Description:</strong> {description}</p>
-                <p><strong>Price:</strong> ${price}</p>
-                {imageBase64 && (
-                    <img
-                        src={imageBase64}
-                        alt="Preview"
-                        className="mt-2 w-32 h-32 object-cover border border-gray-300 rounded"
-                    />
-                )}
+            <div>
+                <h2 className="text-2xl font-semibold text-center p-5">Preview</h2>
+                <div className="relative border p-4 rounded-3xl flex justify-center items-center space-x-5">
+                    <div className="w-24 h-24 border rounded-xl overflow-hidden">
+                        <img
+                            src={imageBase64 ? imageBase64 : "/default-image.png"}
+                            alt={name}
+                            className="w-full h-full rounded-xl object-cover"
+                        />
+                    </div>
+
+                    <div className="relative w-full">
+                        <h2 className="text-xl font-bold mb-2 text-center">{name}</h2>
+                        <p className="text-gray-600 mb-4 pl-5 whitespace-nowrap">Price: {price} đ</p>
+                        <p className="text-gray-600 pl-5 whitespace-nowrap">Description: {description}</p>
+                    </div>
+                </div>
             </div>
 
-            <button
-                onClick={createProduct}
-                className="bg-green-500 text-white px-4 py-2 rounded mt-4"
-            >
-                Save Product
-            </button>
+            <div className="flex justify-center items-center">
+                <SubmitButton
+                    content={<span className="fa fa-save"> Create Product</span>}
+                    onClick={createProduct}
+                />
+            </div>
         </div>
     );
 }

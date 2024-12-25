@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import ProductMenuCard from "@/lib/components/productMenuCard";
+import EditMenu from "@/lib/components/editMenu";
 
 interface Product {
     id: number;
@@ -10,12 +11,14 @@ interface Product {
 }
 
 interface MenuCardProps {
+    id?: number;
     title: string;
     description: string;
     products: Product[];
+    allProducts?: Product[];
 }
 
-export function MenuWithProduct({title, description, products}: MenuCardProps) {
+export function MenuWithProduct({ title, description, products }: MenuCardProps) {
     return (
         <div className="mb-8">
             <h2 className="text-xl font-semibold mb-4">{title}</h2>
@@ -36,7 +39,7 @@ export function MenuWithProduct({title, description, products}: MenuCardProps) {
     );
 }
 
-export function MenuOnly({title, description, products}: MenuCardProps) {
+export function MenuOnly({ id, title, description, products, allProducts }: MenuCardProps) {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleSection = () => {
@@ -50,7 +53,7 @@ export function MenuOnly({title, description, products}: MenuCardProps) {
                     <div className="flex flex-col items-center justify-center">
                         <p className="whitespace-nowrap text-xl font-semibold">{title}</p>
                         <p className="whitespace-nowrap text-sm">Description: {description}</p>
-                        <p className="whitespace-nowrap">Number of products: {products.length}</p>
+                        <p className="whitespace-nowrap">Number of products: {products?.length ?? 0}</p>
                     </div>
                     <button
                         onClick={toggleSection}
@@ -60,11 +63,21 @@ export function MenuOnly({title, description, products}: MenuCardProps) {
                     </button>
                 </div>
 
-                <div
-                    className={`mx-2 overflow-hidden bg-stone-500 transition-all duration-500 ease-in-out ${isOpen ? "h-10" : "h-0"}`}
-                >
-                    <p className="text-center">Line 3</p>
-                </div>
+                {id !== undefined && products && (
+                    <div
+                        className={`mx-2 overflow-hidden bg-stone-500 transition-all duration-500 ease-in-out ${
+                            isOpen ? "h-auto" : "h-0"
+                        }`}
+                    >
+                        <EditMenu
+                            id={id}
+                            name={title}
+                            description={description}
+                            products={products}
+                            allProducts={allProducts || []}
+                        />
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -3,8 +3,9 @@
 import React, {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import Loading from "@/lib/components/Loading";
-import MenuManagerCard from "@/lib/components/menuManagerCard";
+import {MenuWithProduct, MenuOnly} from "@/lib/components/menuManagerCard";
 import {useRouter} from "next/navigation";
+import AddMenu from "@/lib/components/addMenu";
 
 interface Product {
     id: number;
@@ -24,6 +25,7 @@ interface Menu {
 export default function Page() {
     const router = useRouter();
 
+    const [isAdd, setIsAdd] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isVisible, setIsVisible] = useState(true);
     const [menus, setMenus] = useState<Menu[]>([]);
@@ -86,44 +88,63 @@ export default function Page() {
 
             <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Cart</div>
 
-            <button
-                onClick={() => setIsVisible(!isVisible)}
-                className="border border-gray-300 p-3 mb-3 rounded-md shadow-md"
-            >
-                View
-            </button>
+            <div>
+                <button
+                    onClick={() => setIsVisible(!isVisible)}
+                    className="border border-gray-300 p-3 mb-3 rounded-md shadow-md"
+                >
+                    View
+                </button>
+                <button
+                    onClick={() => setIsAdd(!isAdd)}
+                    className="border border-gray-300 p-3 mb-3 rounded-md shadow-md"
+                >
+                    Add Menu
+                </button>
+            </div>
 
-            {isLoading ? (
-                <Loading/>
-            ) : isVisible ? (
-                <div className="mt-5">
-                    {menus.length > 0 ? (
-                        menus.map((item) => (
-
-                            <div key={item.id} className="mb-8 border rounded-xl p-4">
-                                <p className="whitespace-nowrap text-xl font-semibold">{item.name}</p>
-                                <p className="whitespace-nowrap text-sm">Description: {item.description}</p>
-                                <p className="whitespace-nowrap">Number of products: {item.products.length}</p>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No menus available.</p>
-                    )}
-                </div>
+            {isAdd ? (
+                <AddMenu
+                    products={products}
+                />
             ) : (
-                <div className="mt-5">
-                    {menus.length > 0 ? (
-                        menus.map(menu => (
-                            <MenuManagerCard
-                                key={menu.id}
-                                title={menu.name}
-                                products={menu.products}
-                            />
-                        ))
+                <>
+                    {isLoading ? (
+                        <Loading/>
+                    ) : isVisible ? (
+                        <div className="mt-5">
+                            {menus.length > 0 ? (
+                                menus.map((item) => (
+                                    <MenuOnly
+                                        key={item.id}
+                                        id={item.id}
+                                        title={item.name}
+                                        description={item.description}
+                                        products={item.products}
+                                        allProducts={products}
+                                    />
+                                ))
+                            ) : (
+                                <p>No menus available.</p>
+                            )}
+                        </div>
                     ) : (
-                        <p>No menus available.</p>
+                        <div className="mt-5">
+                            {menus.length > 0 ? (
+                                menus.map(menu => (
+                                    <MenuWithProduct
+                                        key={menu.id}
+                                        title={menu.name}
+                                        description={menu.description}
+                                        products={menu.products}
+                                    />
+                                ))
+                            ) : (
+                                <p>No menus available.</p>
+                            )}
+                        </div>
                     )}
-                </div>
+                </>
             )}
         </>
     );

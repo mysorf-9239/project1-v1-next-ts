@@ -11,7 +11,7 @@ interface Product {
     name: string,
     description: string,
     price: number,
-    imageBase64: string,
+    image: string,
 }
 
 export default function Page() {
@@ -35,6 +35,7 @@ export default function Page() {
             }
             return Promise.reject(response);
         }).then((data: Product[]) => {
+            console.log(data);
             setProducts(data);
         }).catch(() => {
             toast.error('Server Error');
@@ -61,9 +62,9 @@ export default function Page() {
             </button>
 
             {isLoading ? (
-                <Loading />
+                <Loading/>
             ) : isAdd ? (
-                <AddProduct />
+                <AddProduct/>
             ) : (
                 <div className="mt-5">
                     {products.length > 0 ? (
@@ -73,7 +74,11 @@ export default function Page() {
                                 <p><strong>Name:</strong> {product.name}</p>
                                 <p><strong>Description:</strong> {product.description}</p>
                                 <p><strong>Price:</strong> {product.price}</p>
-                                <img src={product.imageBase64} alt={product.name} className="w-20 h-20 object-cover mt-2" />
+                                <img
+                                    src={product.image}
+                                    alt={product.name}
+                                    className="w-20 h-20 object-cover mt-2"
+                                />
                             </div>
                         ))
                     ) : (

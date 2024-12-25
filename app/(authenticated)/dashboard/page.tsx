@@ -25,7 +25,6 @@ interface Menu {
 export default function Page() {
     const [isLoading, setIsLoading] = useState(true);
     const [menus, setMenus] = useState<Menu[]>([]);
-    const token = localStorage.getItem('accessToken');
 
     useEffect(() => {
         if (menus) {
@@ -33,7 +32,7 @@ export default function Page() {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    ...(token && {Authorization: `Bearer ${token}`}),
+                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
                 },
             })
                 .then(response => {
@@ -51,7 +50,7 @@ export default function Page() {
                     toast.error('Lỗi khi tải dữ liệu menu');
                 });
         }
-    }, [token, menus]);
+    }, [menus]);
 
     const getCartQuantities = () => {
         const cart = getCart();

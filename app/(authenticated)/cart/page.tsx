@@ -15,17 +15,19 @@ interface Product {
 }
 
 export default function Page() {
-    const [cartData, setCartData] = useState<Product[]>(getCart());
+    const [cartData, setCartData] = useState<Product[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        const cart = getCart();
-        setCartData(cart);
+        if (typeof window !== "undefined") {
+            const cart = getCart();
+            setCartData(cart);
 
-        const total = cartData.reduce((sum, product) => sum + product.price * product.quantity, 0);
-        setTotalAmount(total);
-    }, [cartData]);
+            const total = cart.reduce((sum, product) => sum + product.price * product.quantity, 0);
+            setTotalAmount(total);
+        }
+    }, []);
 
     const handleAddToCart = (product: Product) => {
         addToCart(product);
@@ -74,7 +76,7 @@ export default function Page() {
                 headers: {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json',
-                    ...(token && { Authorization: `Bearer ${token}` }),
+                    ...(token && {Authorization: `Bearer ${token}`}),
                 },
                 body: JSON.stringify(orderData),
             })

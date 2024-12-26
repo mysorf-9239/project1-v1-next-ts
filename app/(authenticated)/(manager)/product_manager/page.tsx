@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 import Loading from "@/lib/components/Loading";
 import SubmitButton from "@/lib/components/submitButton";
 import ProductManagerCard from "@/lib/components/ProductManagerCard";
+import SearchHeader from "@/lib/components/searchHeader";
 
 interface Product {
     id: number;
@@ -54,10 +55,10 @@ export default function Page() {
         <>
             <title>Mysorf | Product Management</title>
 
-            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Create Product</div>
+            <SearchHeader title="Product Manager" holder="Enter product name" />
 
             <div className="relative pt-5">
-                <div className="absolute -top-0 right-10 flex items-center justify-center space-x-5 z-10">
+                <div className="absolute top-2 right-10 flex items-center justify-center space-x-5 z-10">
                     <SubmitButton
                         content={<span className={`fa ${isAdd ? 'fa-cancel' : 'fa-add'}`}></span>}
                         onClick={() => setIsAdd(!isAdd)}

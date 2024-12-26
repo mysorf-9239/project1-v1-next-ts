@@ -32,8 +32,8 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode 
                 </div>
 
                 <div
-                    className={`overflow-y-scroll w-full ${
-                        pathname === '/cart' ? 'p-0' : 'p-5'
+                    className={`relative overflow-y-scroll w-full ${
+                        pathname === '/cart' ? 'p-0' : 'p-5 pt-20'
                     }`}
                 >
                     {children}

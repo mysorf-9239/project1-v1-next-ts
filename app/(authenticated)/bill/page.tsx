@@ -5,6 +5,7 @@ import Loading from "@/lib/components/Loading";
 import {useRouter} from "next/navigation";
 import BillCard from "@/lib/components/BillCard";
 import HandlerError from "@/lib/utils/handlerError";
+import SearchHeader from "@/lib/components/searchHeader";
 
 interface BillProducts {
     quantity: number;
@@ -106,7 +107,7 @@ export default function Page() {
         <>
             <title>Mysorf | Bill</title>
 
-            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Bill</div>
+            <SearchHeader title="Bill" holder="Enter user name" />
 
             {loading ? (
                 <Loading />

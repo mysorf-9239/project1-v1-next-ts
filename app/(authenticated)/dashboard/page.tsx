@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import MenuCard from "@/lib/components/menuCard";
 import {addToCart, getCart, subFromCart} from '@/lib/utils/cartManager';
 import Loading from "@/lib/components/Loading";
+import SearchHeader from "@/lib/components/searchHeader";
 
 interface Product {
     id: number;
@@ -104,7 +105,8 @@ export default function Page() {
     return (
         <>
             <title>Mysorf | Dashboard</title>
-            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Dashboard</div>
+
+            <SearchHeader title="Dashboard" holder="Enter product name" />
 
             {isLoading ? (
                 <Loading />

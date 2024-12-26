@@ -8,6 +8,7 @@ import {useRouter} from "next/navigation";
 import AddMenu from "@/lib/components/addMenu";
 import SubmitButton from "@/lib/components/submitButton";
 import HandlerError from "@/lib/utils/handlerError";
+import SearchHeader from "@/lib/components/searchHeader";
 
 interface Product {
     id: number;
@@ -88,10 +89,10 @@ export default function Page() {
         <>
             <title>Mysorf | Menu Management</title>
 
-            <div className="bg-amber-200 p-5 border border-black border-b-2 rounded">Cart</div>
+            <SearchHeader title="Menu Manager" holder="Enter menu name"/>
 
             <div className="relative pt-5">
-                <div className="absolute -top-0 right-10 flex items-center justify-center space-x-5">
+                <div className="absolute top-2 right-10 flex items-center justify-center space-x-5">
                     {!isAdd && (
                         <SubmitButton
                             content={<span className={`fa ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></span>}

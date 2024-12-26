@@ -29,7 +29,7 @@ export default function AddProduct() {
                 const base64 = await encodeImageToBase64(file);
                 setImageBase64(base64);
             } catch (error) {
-                console.error('Failed to encode image:', error);
+                console.error(error);
                 toast.error('Failed to process image.');
             }
         }

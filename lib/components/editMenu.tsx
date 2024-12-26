@@ -62,8 +62,6 @@ export default function EditMenu({
             }
 
             return Promise.reject(response);
-        }).then((data) => {
-            console.log('Updated Menu:', data);
         }).catch(error => HandlerError(error));
     }
 

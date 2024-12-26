@@ -45,6 +45,10 @@ export function MenuOnly({id, title, description, products, allProducts}: MenuCa
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    const toggleSection = () => {
+        setIsOpen(!isOpen);
+    };
+
     const deleteMenu = () => {
         setLoading(true);
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/menus/${id}`, {
@@ -66,10 +70,6 @@ export function MenuOnly({id, title, description, products, allProducts}: MenuCa
             setLoading(false);
         });
     }
-
-    const toggleSection = () => {
-        setIsOpen(!isOpen);
-    };
 
     return (
         <div

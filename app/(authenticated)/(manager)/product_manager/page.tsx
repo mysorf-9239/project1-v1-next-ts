@@ -8,6 +8,7 @@ import Loading from "@/lib/components/Loading";
 import SubmitButton from "@/lib/components/submitButton";
 import ProductManagerCard from "@/lib/components/ProductManagerCard";
 import SearchHeader from "@/lib/components/searchHeader";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface Product {
     id: number;
@@ -89,7 +90,10 @@ export default function Page() {
                             />
                         ))
                     ) : (
-                        <p>No products available</p>
+                        <EmptyContent
+                            title="No products found"
+                            description="Try searching with different name."
+                        />
                     )}
                 </div>
             )}

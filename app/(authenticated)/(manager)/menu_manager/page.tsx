@@ -9,6 +9,7 @@ import AddMenu from "@/lib/components/addMenu";
 import SubmitButton from "@/lib/components/submitButton";
 import HandlerError from "@/lib/utils/handlerError";
 import SearchHeader from "@/lib/components/searchHeader";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface Product {
     id: number;
@@ -152,7 +153,10 @@ export default function Page() {
                                     />
                                 ))
                             ) : (
-                                <p>No menus available.</p>
+                                <EmptyContent
+                                    title="No menus found"
+                                    description="Try searching with different name."
+                                />
                             )}
                         </div>
                     )}

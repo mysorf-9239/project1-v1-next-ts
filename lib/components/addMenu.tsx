@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {toast} from 'react-toastify';
 import HandlerError from "@/lib/utils/handlerError";
 import SubmitButton from "@/lib/components/submitButton";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface Product {
     id: number;
@@ -159,7 +160,10 @@ export default function AddMenu({products}: AddMenuProps) {
                         })}
                     </div>
                 ) : (
-                    <p className="text-gray-500 mt-2">No products added yet.</p>
+                    <EmptyContent
+                        title="No products added"
+                        description="Try selecting a product from the list above."
+                    />
                 )}
             </div>
 

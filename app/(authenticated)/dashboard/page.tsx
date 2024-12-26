@@ -6,6 +6,7 @@ import MenuCard from "@/lib/components/menuCard";
 import {addToCart, getCart, subFromCart} from '@/lib/utils/cartManager';
 import Loading from "@/lib/components/Loading";
 import SearchHeader from "@/lib/components/searchHeader";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface Product {
     id: number;
@@ -135,7 +136,10 @@ export default function Page() {
                             />
                         ))
                     ) : (
-                        <p>No matching products found.</p>
+                        <EmptyContent
+                            title="No menus found"
+                            description="Try searching with different name."
+                        />
                     )}
                 </div>
             )}

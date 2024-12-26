@@ -6,6 +6,7 @@ import HandlerError from "@/lib/utils/handlerError";
 import Loading from "@/lib/components/Loading";
 import BillCard from "@/lib/components/BillCard";
 import SearchHeader from "@/lib/components/searchHeader";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface BillProducts {
     quantity: number;
@@ -99,7 +100,10 @@ export default function Page() {
                             ))}
                         </div>
                     ) : (
-                        <p>No matching bills found.</p>
+                        <EmptyContent
+                            title="No bills found"
+                            description="Try searching with different name."
+                        />
                     )}
                 </div>
             )}

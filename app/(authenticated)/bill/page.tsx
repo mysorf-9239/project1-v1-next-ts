@@ -117,7 +117,7 @@ export default function Page() {
 
             <SearchHeader
                 title="Bill"
-                holder="Enter user name"
+                holder="Search with user name"
                 onSearchChange={(e) => setSearchQuery(e.target.value)}
             />
 

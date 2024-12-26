@@ -10,7 +10,7 @@ const MobileNavigationItem: React.FC<{ href: string, children: React.ReactNode }
     return (
         <div className="flex items-center justify-center">
             <Link href={href} aria-hidden="true"
-                  className={`p-3 ${pathname === href ? 'bg-lime-100 border border-black rounded-xl' : ''}`}>
+                  className={`p-3 ${pathname === href ? 'bg-lime-200 border border-black rounded-xl' : ''}`}>
                 {children}
             </Link>
         </div>

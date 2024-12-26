@@ -41,21 +41,16 @@ export default function Navigation() {
                 {!isMini && <p className="whitespace-nowrap text-2xl font-semibold text-stone-700">Mysorf</p>}
             </div>
 
-            {!isMini ? (
-                <button
-                    className="absolute right-0 top-10 flex justify-center items-center bg-stone-200 rounded-l-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    onClick={() => setIsMini(true)}
-                >
+            <button
+                className="absolute right-0 top-10 flex justify-center items-center bg-stone-200 rounded-l-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                onClick={() => setIsMini(!isMini)}
+            >
+                {isMini ? (
+                    <ChevronRight />
+                ) : (
                     <ChevronLeft/>
-                </button>
-            ) : (
-                <button
-                    className="absolute -right-6 top-10 flex justify-center items-center bg-stone-200 rounded-r-xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                    onClick={() => setIsMini(false)}
-                >
-                    <ChevronRight/>
-                </button>
-            )}
+                )}
+            </button>
 
             <NavigationItem href="/dashboard">
                 <Home/>
@@ -75,17 +70,17 @@ export default function Navigation() {
             {isAdmin && (
                 <>
                     <NavigationItem href="/menu_manager">
-                        <Grid />
+                        <Grid/>
                         {!isMini && <span className="whitespace-nowrap">Menu Manager</span>}
                     </NavigationItem>
 
                     <NavigationItem href="/product_manager">
-                        <Package />
+                        <Package/>
                         {!isMini && <span className="whitespace-nowrap">Product Manager</span>}
                     </NavigationItem>
 
                     <NavigationItem href="/bill_manager">
-                        <FilePlus />
+                        <FilePlus/>
                         {!isMini && <span className="whitespace-nowrap">Bill Manager</span>}
                     </NavigationItem>
                 </>

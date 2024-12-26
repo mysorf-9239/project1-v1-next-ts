@@ -116,7 +116,7 @@ export default function Page() {
 
             <SearchHeader
                 title="Dashboard"
-                holder="Enter product name"
+                holder="Search with product name"
                 onSearchChange={(e) => setSearchQuery(e.target.value)}
             />
 

@@ -96,7 +96,7 @@ export default function Page() {
 
             <SearchHeader
                 title="Menu Manager"
-                holder="Enter menu name"
+                holder="Search with menu name"
                 onSearchChange={(e) => setSearchQuery(e.target.value)}
             />
 

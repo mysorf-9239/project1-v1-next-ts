@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
+import React, {useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
 import MenuCard from "@/lib/components/menuCard";
 import {addToCart, getCart, subFromCart} from '@/lib/utils/cartManager';
 import Loading from "@/lib/components/Loading";
@@ -26,6 +26,7 @@ interface Menu {
 export default function Page() {
     const [isLoading, setIsLoading] = useState(true);
     const [menus, setMenus] = useState<Menu[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     useEffect(() => {
         if (menus) {
@@ -73,12 +74,12 @@ export default function Page() {
     };
 
     const handleAddToCart = (product: Product) => {
-        addToCart({ ...product, quantity: 1 });
+        addToCart({...product, quantity: 1});
         setMenus(prevMenus =>
             prevMenus.map(menu => ({
                 ...menu,
                 products: menu.products.map(p =>
-                    p.id === product.id ? { ...p, quantity: (p.quantity || 0) + 1 } : p
+                    p.id === product.id ? {...p, quantity: (p.quantity || 0) + 1} : p
                 )
             }))
         );
@@ -92,7 +93,7 @@ export default function Page() {
                 prevMenus.map(menu => ({
                     ...menu,
                     products: menu.products.map(p =>
-                        p.id === product.id ? { ...p, quantity: Math.max((p.quantity || 0) - 1, 0) } : p
+                        p.id === product.id ? {...p, quantity: Math.max((p.quantity || 0) - 1, 0)} : p
                     )
                 }))
             );
@@ -102,18 +103,29 @@ export default function Page() {
         }
     };
 
+    const filteredMenus = menus.map(menu => ({
+        ...menu,
+        products: menu.products.filter(product =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        ),
+    })).filter(menu => menu.products.length > 0);
+
     return (
         <>
             <title>Mysorf | Dashboard</title>
 
-            <SearchHeader title="Dashboard" holder="Enter product name" />
+            <SearchHeader
+                title="Dashboard"
+                holder="Enter product name"
+                onSearchChange={(e) => setSearchQuery(e.target.value)}
+            />
 
             {isLoading ? (
-                <Loading />
+                <Loading/>
             ) : (
                 <div className="mt-5">
-                    {menus.length > 0 ? (
-                        menus.map(menu => (
+                    {filteredMenus.length > 0 ? (
+                        filteredMenus.map(menu => (
                             <MenuCard
                                 key={menu.id}
                                 title={menu.name}
@@ -123,7 +135,7 @@ export default function Page() {
                             />
                         ))
                     ) : (
-                        <p>No menus available.</p>
+                        <p>No matching products found.</p>
                     )}
                 </div>
             )}

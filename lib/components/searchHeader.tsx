@@ -1,5 +1,12 @@
-export default function SearchHeader({title, holder}: {title: string, holder: string}) {
-
+export default function SearchHeader({
+                                         title,
+                                         holder,
+                                         onSearchChange,
+                                     }: {
+    title: string;
+    holder: string;
+    onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
     return (
         <div className="absolute top-0 left-0 w-full h-20 p-10 mt-2 flex flex-col items-start justify-center space-y-2">
             <h2 className="text-2xl font-bold fa">{title}</h2>
@@ -10,11 +17,9 @@ export default function SearchHeader({title, holder}: {title: string, holder: st
                     type="search"
                     placeholder={holder}
                     className="w-full focus:outline-none focus:shadow-none"
-                    onChange={(e) => {
-                        console.log(e)
-                    }}
+                    onChange={onSearchChange}
                 />
             </div>
         </div>
-    )
+    );
 }

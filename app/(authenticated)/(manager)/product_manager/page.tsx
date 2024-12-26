@@ -23,6 +23,7 @@ export default function Page() {
     const [isAdd, setIsAdd] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
     const getProduct = () => {
         setIsLoading(true);
@@ -47,6 +48,10 @@ export default function Page() {
         });
     }
 
+    const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     useEffect(() => {
         getProduct();
     }, [router]);
@@ -55,7 +60,11 @@ export default function Page() {
         <>
             <title>Mysorf | Product Management</title>
 
-            <SearchHeader title="Product Manager" holder="Enter product name" />
+            <SearchHeader
+                title="Product Manager"
+                holder="Enter product name"
+                onSearchChange={(e) => setSearchQuery(e.target.value)}
+            />
 
             <div className="relative pt-5">
                 <div className="absolute top-2 right-10 flex items-center justify-center space-x-5 z-10">
@@ -72,8 +81,8 @@ export default function Page() {
                 <AddProduct/>
             ) : (
                 <div className="mt-8 px-5 flex flex-col space-y-8">
-                    {products.length > 0 ? (
-                        products.map((product) => (
+                    {filteredProducts.length > 0 ? (
+                        filteredProducts.map((product) => (
                             <ProductManagerCard
                                 key={product.id}
                                 product={product}

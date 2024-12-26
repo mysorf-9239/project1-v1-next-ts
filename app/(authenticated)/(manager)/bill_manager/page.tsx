@@ -40,6 +40,14 @@ export default function Page() {
     const router = useRouter();
     const [loading, setLoading] = useState<boolean>(false);
     const [bills, setBills] = useState<Bill[]>([]);
+    const [searchQuery, setSearchQuery] = useState<string>('');
+
+    const filteredBills = bills.filter((bill) =>
+        bill.user?.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        bill.products.some((product) =>
+            product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+    );
 
     useEffect(() => {
         setLoading(true);
@@ -71,15 +79,19 @@ export default function Page() {
         <>
             <title>Mysorf | Bill Management</title>
 
-            <SearchHeader title="Bill Manager" holder="Enter user name" />
+            <SearchHeader
+                title="Bill Manager"
+                holder="Enter user name"
+                onSearchChange={(e) => setSearchQuery(e.target.value)}
+            />
 
             {loading ? (
                 <Loading/>
             ) : (
                 <div className="p-5 pt-8">
-                    {bills.length > 0 ? (
+                    {filteredBills.length > 0 ? (
                         <div className="flex flex-wrap gap-5 justify-start">
-                            {bills.map((bill) => (
+                            {filteredBills.map((bill) => (
                                 <BillCard
                                     key={bill.id}
                                     bill={bill}
@@ -87,7 +99,7 @@ export default function Page() {
                             ))}
                         </div>
                     ) : (
-                        <p>No bills available yet.</p>
+                        <p>No matching bills found.</p>
                     )}
                 </div>
             )}

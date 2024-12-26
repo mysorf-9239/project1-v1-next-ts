@@ -28,6 +28,7 @@ interface Menu {
 export default function Page() {
     const router = useRouter();
 
+    const [searchQuery, setSearchQuery] = useState<string>('');
     const [isAdd, setIsAdd] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isVisible, setIsVisible] = useState(true);
@@ -80,6 +81,10 @@ export default function Page() {
         });
     }
 
+    const filteredMenus = menus.filter(menu =>
+        menu.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
     useEffect(() => {
         getProduct();
         getMenu();
@@ -89,7 +94,11 @@ export default function Page() {
         <>
             <title>Mysorf | Menu Management</title>
 
-            <SearchHeader title="Menu Manager" holder="Enter menu name"/>
+            <SearchHeader
+                title="Menu Manager"
+                holder="Enter menu name"
+                onSearchChange={(e) => setSearchQuery(e.target.value)}
+            />
 
             <div className="relative pt-5">
                 <div className="absolute top-2 right-10 flex items-center justify-center space-x-5">
@@ -116,8 +125,8 @@ export default function Page() {
                         <Loading/>
                     ) : isVisible ? (
                         <div className="mt-5 px-5">
-                            {menus.length > 0 ? (
-                                menus.map((item) => (
+                            {filteredMenus.length > 0 ? (
+                                filteredMenus.map((item) => (
                                     <MenuOnly
                                         key={item.id}
                                         id={item.id}
@@ -128,7 +137,7 @@ export default function Page() {
                                     />
                                 ))
                             ) : (
-                                <p>No menus available.</p>
+                                <p>No matching products found.</p>
                             )}
                         </div>
                     ) : (

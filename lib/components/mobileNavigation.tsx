@@ -76,16 +76,16 @@ export default function MobileNavigation() {
                         </div>
                     </div>
                 ) : (
-                    <>
+                    <div className="flex items-center justify-center">
                         <button
-                            className="flex items-center justify-center space-x-3 mb-14 hover:text-red-500 font-bold"
+                            className="hover:text-red-500 font-bold"
                             onClick={logout}
                         >
                             <div className="p-3">
                                 <LogOut/>
                             </div>
                         </button>
-                    </>
+                    </div>
                 )}
             </div>
         </>

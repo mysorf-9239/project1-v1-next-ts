@@ -1,28 +1,28 @@
 'use client';
 
-import React from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import {useUser} from "@/lib/hooks/userContext";
+import {SubmitHandler, useForm} from "react-hook-form";
 
 export default function Page() {
     const router = useRouter();
-    const { dispatch } = useUser();
+    const {dispatch} = useUser();
+    const [loading, setLoading] = useState(false);
 
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: {errors},
+        trigger,
+    } = useForm<{ email: string; password: string }>();
 
-    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value);
-    }
-
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    }
-
-    const login = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const onSubmit: SubmitHandler<{ email: string; password: string }> = async (data) => {
+        setLoading(true);
+        const {email, password} = data;
 
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/login`, {
             method: 'POST',
@@ -80,8 +80,13 @@ export default function Page() {
                         closeButton: false
                     });
             }
+        }).finally(() => {
+            setLoading(false);
         });
     }
+
+    const email = watch("email");
+    const password = watch("password");
 
     return (
         <>
@@ -102,39 +107,103 @@ export default function Page() {
                     </Link>
                 </div>
 
-                <form className="space-y-4" onSubmit={login}>
-                    <div className="border border-black flex items-center bg-stone-100 rounded-xl overflow-hidden px-3">
-                        <svg viewBox="0 0 24 25" fill="none" focusable="false" className="h-6 w-6">
-                            <path d="M17 21.3H7c-3 0-5-1.5-5-5v-7c0-3.5 2-5 5-5h10c3 0 5 1.5 5 5v7c0 3.5-2 5-5 5z"
-                                  stroke="currentColor"
-                                  strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round"
-                                  strokeLinejoin="round"></path>
-                            <path d="M17 9.8l-3.13 2.5c-1.03.82-2.72.82-3.75 0L7 9.8" stroke="currentColor"
-                                  strokeWidth="1.5"
-                                  strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path>
-                        </svg>
+                <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                    {/* Email Field */}
+                    <div className="flex flex-col space-y-1">
+                        <div
+                            className="border border-black flex items-center bg-stone-100 rounded-xl overflow-hidden px-3">
+                            <svg
+                                viewBox="0 0 24 25"
+                                fill="none"
+                                focusable="false"
+                                className="h-6 w-6"
+                            >
+                                <path
+                                    d="M17 21.3H7c-3 0-5-1.5-5-5v-7c0-3.5 2-5 5-5h10c3 0 5 1.5 5 5v7c0 3.5-2 5-5 5z"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeMiterlimit="10"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                ></path>
+                                <path
+                                    d="M17 9.8l-3.13 2.5c-1.03.82-2.72.82-3.75 0L7 9.8"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeMiterlimit="10"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                ></path>
+                            </svg>
 
-                        <input type="email" className="bg-stone-100 w-full p-3 focus:outline-none" placeholder="Email"
-                               value={email}
-                               onChange={handleEmailChange}/>
+                            <input
+                                type="email"
+                                className="bg-stone-100 w-full p-3 focus:outline-none"
+                                placeholder="Email"
+                                value={email || ""}
+                                {...register("email", {
+                                    required: "This is required.",
+                                    pattern: {
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: "Please enter a valid email address.",
+                                    },
+                                })}
+                                onBlur={() => trigger("email")}
+                            />
+                        </div>
+                        <p className="text-red-500 text-sm">{errors.email?.message}</p>
                     </div>
 
-                    <div className="border border-black flex items-center bg-stone-100 rounded-xl overflow-hidden px-3">
-                        <svg viewBox="0 0 24 25" fill="none" focusable="false" className="h-6 w-6">
-                            <path d="M16.423 10.249V8.102a4.552 4.552 0 00-4.55-4.551 4.55 4.55 0 00-4.57 4.53v2.168"
-                                  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                  strokeLinejoin="round"></path>
-                            <path clipRule="evenodd"
-                                  d="M15.683 22.05h-7.64a3.792 3.792 0 01-3.793-3.792V13.97a3.792 3.792 0 013.792-3.792h7.641a3.792 3.792 0 013.792 3.792v4.29a3.792 3.792 0 01-3.792 3.791z"
-                                  stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                  strokeLinejoin="round"></path>
-                            <path d="M11.863 15.004v2.22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"
-                                  strokeLinejoin="round"></path>
-                        </svg>
+                    {/* Password Field */}
+                    <div className="flex flex-col space-y-1">
+                        <div
+                            className="border border-black flex items-center bg-stone-100 rounded-xl overflow-hidden px-3">
+                            <svg
+                                viewBox="0 0 24 25"
+                                fill="none"
+                                focusable="false"
+                                className="h-6 w-6"
+                            >
+                                <path
+                                    d="M16.423 10.249V8.102a4.552 4.552 0 00-4.55-4.551 4.55 4.55 0 00-4.57 4.53v2.168"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                ></path>
+                                <path
+                                    clipRule="evenodd"
+                                    d="M15.683 22.05h-7.64a3.792 3.792 0 01-3.793-3.792V13.97a3.792 3.792 0 013.792-3.792h7.641a3.792 3.792 0 013.792 3.792v4.29a3.792 3.792 0 01-3.792 3.791z"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                ></path>
+                                <path
+                                    d="M11.863 15.004v2.22"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                ></path>
+                            </svg>
 
-                        <input type="password" className="bg-stone-100 w-full p-3 focus:outline-none"
-                               placeholder="Password"
-                               value={password} onChange={handlePasswordChange}/>
+                            <input
+                                type="password"
+                                className="bg-stone-100 w-full p-3 focus:outline-none"
+                                placeholder="Password"
+                                value={password || ""}
+                                {...register("password", {
+                                    required: "This is required.",
+                                    minLength: {
+                                        value: 6,
+                                        message: "Password requires at least 6 characters.",
+                                    },
+                                })}
+                                onBlur={() => trigger("password")}
+                            />
+                        </div>
+                        <p className="text-red-500 text-sm">{errors.password?.message}</p>
                     </div>
 
                     <div>
@@ -144,9 +213,19 @@ export default function Page() {
                         </Link>
                     </div>
 
-                    <button type="submit"
-                            className="w-full bg-black text-white py-3 rounded-full hover:bg-gray-800 transition">
-                        Login
+                    <button
+                        type="submit"
+                        disabled={!email || !password || loading}
+                        className={`w-full mt-14 bg-black border border-black text-white py-3 rounded-full transition-all duration-300 disabled:bg-stone-400 disabled:text-black disabled:font-semibold disabled:cursor-not-allowed cursor-pointer flex justify-center items-center ${
+                            !loading && "bg-black hover:bg-gray-800"
+                        }`}
+                    >
+                        {loading ? (
+                            <span
+                                className="h-4 w-4 animate-spin rounded-full border border-white border-t-black"></span>
+                        ) : (
+                            "Login"
+                        )}
                     </button>
                 </form>
             </div>

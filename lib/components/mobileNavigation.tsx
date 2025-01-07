@@ -20,6 +20,7 @@ export default function MobileNavigation() {
 
     const logout = () => {
         dispatch({type: "LOGOUT"});
+
         router.push('/login');
     };
 
@@ -40,7 +41,7 @@ export default function MobileNavigation() {
                 </MobileNavigationItem>
 
                 {isAdmin ? (
-                    <div className="relative flex items-center justify-center group">
+                    <div className="relative flex items-center justify-center group min-w-32">
                         <div
                             className="p-3 cursor-pointer group-hover:bg-lime-100 group-hover:border border-black rounded-xl"
                         >
@@ -50,7 +51,9 @@ export default function MobileNavigation() {
                         <div
                             className="absolute hidden group-hover:flex group-focus:flex flex-col-reverse justify-center items-center border border-stone-300 bg-lime-100 rounded-xl -top-60 bottom-14 left-8 right-8 space-y-2">
                             <div
-                                className="cursor-pointer rounded-xl border border-lime-100 hover:border-stone-300 hover:bg-lime-200">
+                                className="cursor-pointer rounded-xl border border-lime-100 hover:border-stone-300 hover:bg-lime-200"
+                                onClick={logout}
+                            >
                                 <div className="p-3">
                                     <LogOut/>
                                 </div>

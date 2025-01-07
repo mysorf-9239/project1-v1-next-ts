@@ -32,30 +32,28 @@ export default function Page() {
     const [searchQuery, setSearchQuery] = useState<string>('');
 
     useEffect(() => {
-        if (menus) {
-            fetch(`${process.env.NEXT_PUBLIC_API_URL}/menus`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
-                },
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/menus`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+            },
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return Promise.reject(response);
             })
-                .then(response => {
-                    if (response.ok) {
-                        return response.json();
-                    }
-                    return Promise.reject(response);
-                })
-                .then((data: Menu[]) => {
-                    setMenus(data);
-                    setIsLoading(false);
-                })
-                .catch(() => {
-                    setIsLoading(false);
-                    toast.error('Internal server error');
-                });
-        }
-    }, [router, menus]);
+            .then((data: Menu[]) => {
+                setMenus(data);
+                setIsLoading(false);
+            })
+            .catch(() => {
+                setIsLoading(false);
+                toast.error('Internal server error');
+            });
+    }, [router]);
 
     const getCartQuantities = () => {
         const cart = getCart();

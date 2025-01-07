@@ -32,7 +32,7 @@ export default function MenuCard({ title, products, onAdd, onSub }: MenuCardProp
                         />
                     ))
                 ) : (
-                    <p className="mx-auto text-sm">Không có sản phẩm nào phù hợp</p>
+                    <p className="mx-auto text-sm">No products match</p>
                 )}
             </div>
         </div>

@@ -149,7 +149,7 @@ export default function Page() {
                                 width={144}
                                 height={144}
                             />
-                            <p className="text-center mt-10">Giỏ hàng của bạn đang trống.</p>
+                            <p className="text-center mt-10">Your cart is empty.</p>
                         </div>
                     )}
                 </div>

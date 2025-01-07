@@ -50,7 +50,7 @@ export default function Page() {
                 })
                 .catch(() => {
                     setIsLoading(false);
-                    toast.error('Lỗi khi tải dữ liệu menu');
+                    toast.error('Internal server error');
                 });
         }
     }, [menus]);
@@ -84,7 +84,7 @@ export default function Page() {
                 )
             }))
         );
-        toast.success(`${product.name} đã được thêm vào giỏ hàng!`);
+        toast.success(`${product.name} has been added to cart!`);
     };
 
     const handleSubFromCart = (product: Product) => {
@@ -98,9 +98,9 @@ export default function Page() {
                     )
                 }))
             );
-            toast.info(`${product.name} đã được xoá khỏi giỏ hàng!`);
+            toast.info(`${product.name} has been removed from cart!`);
         } else {
-            toast.error(`${product.name} chưa có trong giỏ hàng!`);
+            toast.error(`${product.name} not in cart!`);
         }
     };
 

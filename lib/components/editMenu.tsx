@@ -104,7 +104,7 @@ export default function EditMenu({
             const productIds: number[] = [selectedProductId];
             addProduct(id, productIds);
         } else {
-            toast.error("Chưa có sản phẩm nào được chọn");
+            toast.error("No products selected yet");
         }
     }
 
@@ -132,7 +132,7 @@ export default function EditMenu({
         if (productId) {
             removeProduct(id, productId);
         } else {
-            toast.error("Sản phẩm không tồn tại");
+            toast.error("Product does not exist");
         }
     }
 

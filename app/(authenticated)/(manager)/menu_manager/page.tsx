@@ -54,7 +54,7 @@ export default function Page() {
             setIsLoading(false);
         }).catch(() => {
             setIsLoading(false);
-            toast.error('Lỗi khi tải dữ liệu menu');
+            toast.error('Internal server error!');
         }).finally(() => {
             setIsLoading(false);
         });

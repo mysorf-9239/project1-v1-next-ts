@@ -299,7 +299,7 @@ function Register() {
 
                     <button
                         type="submit"
-                        disabled={!email || (password !== passwordConfirmation) || loading}
+                        disabled={!email || !password || (password !== passwordConfirmation) || loading}
                         className={`w-full mt-14 bg-black border border-black text-white py-3 rounded-full transition-all duration-300 disabled:bg-stone-400 disabled:text-black disabled:font-semibold disabled:cursor-not-allowed cursor-pointer flex justify-center items-center ${
                             !loading && "bg-black hover:bg-gray-800"
                         }`}

@@ -4,6 +4,7 @@ import {toast} from 'react-toastify';
 import HandlerError from "@/lib/utils/handlerError";
 import SubmitButton from "@/lib/components/submitButton";
 import formatNumber from '@/lib/utils/formatNumber';
+import Image from "next/image";
 
 export default function AddProduct() {
     const [name, setName] = useState('');
@@ -121,15 +122,17 @@ export default function AddProduct() {
             <div>
                 <h2 className="text-2xl font-semibold text-center p-5">Preview</h2>
                 <div className="relative border p-4 rounded-3xl flex justify-center items-center space-x-5">
-                    <div className="w-24 h-24 border rounded-xl overflow-hidden">
-                        <img
+                    <div className="min-w-24 min-h-24 border rounded-xl overflow-hidden">
+                        <Image
                             src={imageBase64 ? imageBase64 : "/default-image.png"}
                             alt={name}
                             className="w-full h-full rounded-xl object-cover"
+                            width={96}
+                            height={96}
                         />
                     </div>
 
-                    <div className="relative w-full">
+                    <div className="relative w-full overflow-y-auto">
                         <h2 className="text-xl font-bold mb-2 text-center">{name}</h2>
                         <p className="text-gray-600 mb-4 pl-5 whitespace-nowrap">Price: {formatNumber(parseFloat(price))} đ</p>
                         <p className="text-gray-600 pl-5 whitespace-nowrap">Description: {description}</p>

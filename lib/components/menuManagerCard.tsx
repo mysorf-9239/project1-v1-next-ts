@@ -3,6 +3,7 @@ import ProductMenuCard from "@/lib/components/productMenuCard";
 import EditMenu from "@/lib/components/editMenu";
 import {toast} from "react-toastify";
 import HandlerError from "@/lib/utils/handlerError";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface Product {
     id: number;
@@ -34,7 +35,10 @@ export function MenuWithProduct({title, description, products}: MenuCardProps) {
                         />
                     ))
                 ) : (
-                    <p className="mx-auto text-sm">Không có sản phẩm nào phù hợp</p>
+                    <EmptyContent
+                        title="Empty Menu"
+                        description="No products in this bill."
+                    />
                 )}
             </div>
         </div>

@@ -5,6 +5,7 @@ import {getCart, removeAll, addToCart, subFromCart, removeFromCart} from "@/lib/
 import CartCard from "@/lib/components/cartCard";
 import {toast} from "react-toastify";
 import formatNumber from "@/lib/utils/formatNumber";
+import Image from "next/image";
 
 interface Product {
     id: number;
@@ -112,11 +113,11 @@ export default function Page() {
         <>
             <title>Mysorf | Cart</title>
 
-            <div className="flex flex-col h-screen">
+            <div className="flex flex-col h-[91.5vh] md:h-screen">
                 <div
                     className="flex items-center justify-between bg-gradient-to-tr from-primary-300 via-primary-200 to-primary-400 text-secondary-900 h-12">
                     <span className="w-12 h-12"></span>
-                    <h2 className="flex-1 text-2xl font-semibold my-auto text-center">Giỏ hàng của bạn</h2>
+                    <h2 className="flex-1 text-2xl font-semibold my-auto text-center">Your cart</h2>
                     <span
                         className="flex items-center justify-center w-12 h-12 cursor-pointer"
                         onClick={handleClearCart}>
@@ -140,7 +141,16 @@ export default function Page() {
                             ))}
                         </div>
                     ) : (
-                        <p className="text-center mt-10">Giỏ hàng của bạn đang trống.</p>
+                        <div className="flex flex-col h-[80vh] items-center justify-center space-y-10">
+                            <Image
+                                src="/empty-cart.jpg"
+                                alt="Empty Cart"
+                                className="w-36 h-36"
+                                width={144}
+                                height={144}
+                            />
+                            <p className="text-center mt-10">Giỏ hàng của bạn đang trống.</p>
+                        </div>
                     )}
                 </div>
 

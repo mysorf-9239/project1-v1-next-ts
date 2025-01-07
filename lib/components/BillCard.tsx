@@ -4,6 +4,7 @@ import {toast} from "react-toastify";
 import HandlerError from "@/lib/utils/handlerError";
 import {usePathname} from "next/navigation";
 import formatNumber from "@/lib/utils/formatNumber";
+import EmptyContent from "@/lib/components/emptyContent";
 
 interface BillProducts {
     quantity: number;
@@ -103,7 +104,10 @@ const BillCard: React.FC<BillCardProps> = ({bill}) => {
                         ))}
                     </div>
                 ) : (
-                    <p>No products in this bill.</p>
+                    <EmptyContent
+                        title="Empty Menu"
+                        description="No products in this bill."
+                    />
                 )}
             </div>
         </div>

@@ -1,9 +1,9 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
 
 export default function Loading() {
     return (
-        <div className="flex justify-center items-center w-full min-h-screen">
+        <div className="w-screen h-screen flex justify-center items-center">
             <Image
                 alt="Foodie Maryam - Loading 3"
                 width={732}

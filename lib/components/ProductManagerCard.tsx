@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import HandlerError from "@/lib/utils/handlerError";
 import {toast} from "react-toastify";
 import EditProduct from "@/lib/components/editProduct";
+import formatNumber from "@/lib/utils/formatNumber";
 
 interface Product {
     id: number;
@@ -56,7 +57,7 @@ export default function ProductManagerCard({product}: { product: Product }) {
                         <div className="w-full text-left ml-1">
                             <p className="text-xs">{product.description}</p>
                             <span
-                                className="text-primary-600 text-sm font-bold">{product.price.toLocaleString()} đ</span>
+                                className="text-primary-600 text-sm font-bold">{formatNumber(product.price)} đ</span>
                         </div>
 
                         <div className="absolute -bottom-3 -right-3">

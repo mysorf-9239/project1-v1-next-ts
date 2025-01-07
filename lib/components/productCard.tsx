@@ -1,4 +1,5 @@
 import React from 'react';
+import formatNumber from "@/lib/utils/formatNumber";
 
 interface Product {
     id: number;
@@ -28,7 +29,7 @@ export default function ProductCard({product, onAdd, onSub}: ProductCardProps) {
                 <div className="flex">
                     <div className="w-full text-left ml-1">
                         <p className="text-xs">{product.description}</p>
-                        <span className="text-primary-600 text-sm font-bold">{product.price.toLocaleString()} đ</span>
+                        <span className="text-primary-600 text-sm font-bold">{formatNumber(product.price)} đ</span>
                     </div>
                     <div className="flex justify-between items-center w-24">
                         <button

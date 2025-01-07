@@ -138,7 +138,10 @@ export default function Page() {
                                     />
                                 ))
                             ) : (
-                                <p>No matching products found.</p>
+                                <EmptyContent
+                                    title="No menus found"
+                                    description="Try searching with different name."
+                                />
                             )}
                         </div>
                     ) : (

@@ -3,6 +3,7 @@ import {encodeImageToBase64} from '@/lib/components/imageHandler';
 import {toast} from 'react-toastify';
 import HandlerError from "@/lib/utils/handlerError";
 import SubmitButton from "@/lib/components/submitButton";
+import formatNumber from '@/lib/utils/formatNumber';
 
 export default function AddProduct() {
     const [name, setName] = useState('');
@@ -130,7 +131,7 @@ export default function AddProduct() {
 
                     <div className="relative w-full">
                         <h2 className="text-xl font-bold mb-2 text-center">{name}</h2>
-                        <p className="text-gray-600 mb-4 pl-5 whitespace-nowrap">Price: {price} đ</p>
+                        <p className="text-gray-600 mb-4 pl-5 whitespace-nowrap">Price: {formatNumber(parseFloat(price))} đ</p>
                         <p className="text-gray-600 pl-5 whitespace-nowrap">Description: {description}</p>
                     </div>
                 </div>

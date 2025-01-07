@@ -4,6 +4,7 @@ import React, {useState, useEffect} from "react";
 import {getCart, removeAll, addToCart, subFromCart, removeFromCart} from "@/lib/utils/cartManager";
 import CartCard from "@/lib/components/cartCard";
 import {toast} from "react-toastify";
+import formatNumber from "@/lib/utils/formatNumber";
 
 interface Product {
     id: number;
@@ -145,7 +146,7 @@ export default function Page() {
 
                 <div className="w-full bg-white">
                     <p className="text-lg font-bold text-right pr-10 py-3">
-                        Tổng tiền: {totalAmount.toLocaleString()} đ</p>
+                        Tổng tiền: {formatNumber(totalAmount)} đ</p>
                     <button
                         className="px-4 py-3 bg-gradient-to-br from-primary-300 via-primary-200 to-primary-400 text-secondary-900 font-bold rounded text-lg w-full"
                         onClick={handleOrder}

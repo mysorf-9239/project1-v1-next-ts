@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {toast} from "react-toastify";
 import HandlerError from "@/lib/utils/handlerError";
 import {usePathname} from "next/navigation";
+import formatNumber from "@/lib/utils/formatNumber";
 
 interface BillProducts {
     quantity: number;
@@ -33,7 +34,7 @@ interface BillCardProps {
     bill: Bill;
 }
 
-const BillCard: React.FC<BillCardProps> = ({ bill }) => {
+const BillCard: React.FC<BillCardProps> = ({bill}) => {
     const [loading, setLoading] = useState(false);
     const pathname = usePathname();
 
@@ -64,7 +65,7 @@ const BillCard: React.FC<BillCardProps> = ({ bill }) => {
             className="relative flex flex-col justify-start space-y-1 w-full h-60 border shadow-md p-5 mb-3 rounded-xl">
             <p className="flex justify-center items-center whitespace-nowrap font-semibold fa">Id: {bill.id}</p>
             <p className="whitespace-nowrap font-semibold">User: {bill.user?.name || 'N/A'}</p>
-            <p className="whitespace-nowrap font-semibold">Total amount: {bill.amount} đ</p>
+            <p className="whitespace-nowrap font-semibold">Total amount: {formatNumber(bill.amount)} đ</p>
             <p className="whitespace-nowrap font-semibold">Date: {new Date(bill.createdAt).toLocaleDateString()}</p>
 
             {pathname === '/bill_manager' && (
@@ -92,7 +93,7 @@ const BillCard: React.FC<BillCardProps> = ({ bill }) => {
                                 key={product.id}
                                 className="flex justify-around border rounded-lg p-1 px-3 bg-white shadow-md"
                             >
-                            <p className="whitespace-nowrap">Name: {product.name}</p>
+                                <p className="whitespace-nowrap">Name: {product.name}</p>
                                 <div className="flex-grow"></div>
                                 <p className="whitespace-nowrap">Quantity: {product.BillProducts.quantity}</p>
                             </div>

@@ -7,6 +7,7 @@ import {addToCart, getCart, subFromCart} from '@/lib/utils/cartManager';
 import Loading from "@/lib/components/Loading";
 import SearchHeader from "@/lib/components/searchHeader";
 import EmptyContent from "@/lib/components/emptyContent";
+import {useRouter} from "next/navigation";
 
 interface Product {
     id: number;
@@ -25,6 +26,7 @@ interface Menu {
 }
 
 export default function Page() {
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [menus, setMenus] = useState<Menu[]>([]);
     const [searchQuery, setSearchQuery] = useState<string>('');
@@ -53,7 +55,7 @@ export default function Page() {
                     toast.error('Internal server error');
                 });
         }
-    }, [menus]);
+    }, [router, menus]);
 
     const getCartQuantities = () => {
         const cart = getCart();

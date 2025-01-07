@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import moment from 'moment';
 import {toast} from "react-toastify";
 import HandlerError from "@/lib/utils/handlerError";
 import {usePathname} from "next/navigation";
@@ -66,7 +67,9 @@ const BillCard: React.FC<BillCardProps> = ({bill}) => {
             <p className="flex justify-center items-center whitespace-nowrap font-semibold fa">Id: {bill.id}</p>
             <p className="whitespace-nowrap font-semibold">User: {bill.user?.name || 'N/A'}</p>
             <p className="whitespace-nowrap font-semibold">Total amount: {formatNumber(bill.amount)} đ</p>
-            <p className="whitespace-nowrap font-semibold">Date: {new Date(bill.createdAt).toLocaleDateString()}</p>
+            <p className="whitespace-nowrap font-semibold">
+                Date: {moment(bill.createdAt).format('YYYY-MM-DD HH:mm:ss')}
+            </p>
 
             {pathname === '/bill_manager' && (
                 <div className="absolute top-0 right-1">

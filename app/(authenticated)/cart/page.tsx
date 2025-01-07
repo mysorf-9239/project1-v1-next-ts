@@ -6,6 +6,7 @@ import CartCard from "@/lib/components/cartCard";
 import {toast} from "react-toastify";
 import formatNumber from "@/lib/utils/formatNumber";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 interface Product {
     id: number;
@@ -17,6 +18,7 @@ interface Product {
 }
 
 export default function Page() {
+    const router = useRouter();
     const [cartData, setCartData] = useState<Product[]>([]);
     const [totalAmount, setTotalAmount] = useState<number>(0);
     const [loading, setLoading] = useState<boolean>(false);
@@ -51,7 +53,13 @@ export default function Page() {
     const handleClearCart = () => {
         removeAll();
         setCartData([]);
+        setTotalAmount(0);
+        toast.success("Your cart has been cleared!");
     };
+
+    const handleBack = async () => {
+        router.push("/dashboard");
+    }
 
     const handleOrder = () => {
         if (cartData.length > 0) {
@@ -113,10 +121,14 @@ export default function Page() {
         <>
             <title>Mysorf | Cart</title>
 
-            <div className="flex flex-col h-[91.5vh] md:h-screen">
+            <div className="flex flex-col h-screen">
                 <div
                     className="flex items-center justify-between bg-gradient-to-tr from-primary-300 via-primary-200 to-primary-400 text-secondary-900 h-12">
-                    <span className="w-12 h-12"></span>
+                    <span
+                       className="flex items-center justify-center w-12 h-12 cursor-pointer"
+                       onClick={handleBack}>
+                        <i className="fa fa-arrow-left text-xl"/>
+                    </span>
                     <h2 className="flex-1 text-2xl font-semibold my-auto text-center">Your cart</h2>
                     <span
                         className="flex items-center justify-center w-12 h-12 cursor-pointer"
@@ -164,7 +176,7 @@ export default function Page() {
                     >
                         {loading ? (
                             <span className="fa fa-spinner animate-spin"></span>
-                        ) : "Gọi món"}
+                        ) : "Order"}
                     </button>
                 </div>
             </div>

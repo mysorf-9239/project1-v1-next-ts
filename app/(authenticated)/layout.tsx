@@ -20,24 +20,43 @@ export default function Layout({children}: Readonly<{ children: React.ReactNode 
 
     return (
         <>
-            <ToastContainer/>
+            <ToastContainer
+                position="top-right"
+                autoClose={1000}
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss={true}
+                draggable={true}
+                pauseOnHover={true}
+                theme="light"
+            />
 
-            <div className="md:h-screen h-[92vh] flex">
+            <div className={`md:h-screen ${pathname === '/cart' ? 'h-screen' : 'h-[92vh]'} flex`}>
                 <div className="min-w-fit h-screen hidden md:block">
                     <Navigation/>
                 </div>
 
-                <div className="block md:hidden">
-                    <MobileNavigation/>
-                </div>
+                {pathname === '/cart' ? (
+                    <div
+                        className="relative overflow-y-scroll w-full"
+                    >
+                        {children}
+                    </div>
+                ) : (
+                    <>
+                        <div className="block md:hidden">
+                            <MobileNavigation/>
+                        </div>
 
-                <div
-                    className={`relative overflow-y-scroll w-full ${
-                        pathname === '/cart' ? 'p-0' : 'p-5 pt-20'
-                    }`}
-                >
-                    {children}
-                </div>
+                        <div
+                            className="relative overflow-y-scroll w-full p-5 pt-20"
+                        >
+                            {children}
+                        </div>
+                    </>
+                )}
             </div>
         </>
     )

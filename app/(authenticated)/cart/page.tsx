@@ -121,7 +121,7 @@ export default function Page() {
         <>
             <title>Mysorf | Cart</title>
 
-            <div className="flex flex-col h-[91.5vh]">
+            <div className="flex flex-col h-screen">
                 <div
                     className="flex items-center justify-between bg-gradient-to-tr from-primary-300 via-primary-200 to-primary-400 text-secondary-900 h-12">
                     <span
